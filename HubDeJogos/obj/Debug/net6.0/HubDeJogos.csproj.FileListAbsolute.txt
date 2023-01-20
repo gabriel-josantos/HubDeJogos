@@ -1,0 +1,15 @@
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\bin\Debug\net6.0\HubDeJogos.exe
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\bin\Debug\net6.0\HubDeJogos.deps.json
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\bin\Debug\net6.0\HubDeJogos.runtimeconfig.json
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\bin\Debug\net6.0\HubDeJogos.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\bin\Debug\net6.0\HubDeJogos.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.csproj.AssemblyReference.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.AssemblyInfoInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.AssemblyInfo.cs
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.csproj.CoreCompileInputs.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\refint\HubDeJogos.dll
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.pdb
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\HubDeJogos.genruntimeconfig.cache
+C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\HubDeJogos\obj\Debug\net6.0\ref\HubDeJogos.dll
