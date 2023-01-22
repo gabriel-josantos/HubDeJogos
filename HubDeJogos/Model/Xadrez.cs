@@ -25,8 +25,10 @@ namespace Hub.Model
         private string _peaoBranco = "\x2659";
         private string[] _peçasPretas = { "\x265C", "\x265E", "\x265D", "\x265A", "\x265B", "\x265D", "\x265E", "\x265C" };
         private string[] _peçasBrancas = { "\x2656", "\x2658", "\x2657", "\x2654", "\x2655", "\x2657", "\x2658", "\x2656" };
-        private int[] posiçãoPeçasPretas = { 1, 2, 3, 4, 5, 6, 7, 8 };//{Torre,Cavalo,Bispo,Rainha,Rei,Bispo,Cavalo,Torre}
+        private int[] posiçãoPeçasPretas = { 1, 2, 3, 4, 5, 6, 7, 8 };//{Torre,Cavalo,Bispo,Rei,RainhaBispo,Cavalo,Torre}
         private int[] posiçãoPeçasBrancas = { 57, 58, 59, 60, 61, 62, 63, 64 };//{Torre,Cavalo,Bispo,Rei,Rainha,Bispo,Cavalo,Torre}
+        private double _rodada = 1;
+        private string _stringPgn = "";
 
         public int[] RetornarPosiçãoNoTabuleiro(int posiçãoAbsoluta)
         {
@@ -36,6 +38,22 @@ namespace Hub.Model
             int[] coords = { linha, coluna };
 
             return coords;
+        }
+
+        public void ChecagemDeCapturaPGN(string[,] tabuleiro, int[] casaFinal, string casaStr, string corDaPeça, string tipoDePeça)
+        {
+            if (tabuleiro[casaFinal[0], casaFinal[1]] == " ")
+            {
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}{casaStr}" : $"{tipoDePeça}{casaStr}";
+                Console.WriteLine(_stringPgn);
+                Console.ReadKey();
+            }
+            else
+            {
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}x{casaStr}" : $"{tipoDePeça}x{casaStr}";
+                Console.WriteLine(_stringPgn);
+                Console.ReadKey();
+            }
         }
 
         public int GetIndexArray(int[] arr, int value)
@@ -50,9 +68,8 @@ namespace Hub.Model
             return -1;
         }
 
-        public int[] ValidarInputDeDados()
+        public int[] ValidarInputDeDados(string casaStr)
         {
-            string casaStr = Console.ReadLine();
             int[] casa = TranformarStringParaCoords(casaStr);
 
             while (casa[1] == -1 || casa[0] < 0 || casa[0] > 7)
@@ -61,6 +78,7 @@ namespace Hub.Model
                 casaStr = Console.ReadLine();
                 casa = TranformarStringParaCoords(casaStr);
             }
+
             return casa;
         }
 
@@ -70,6 +88,17 @@ namespace Hub.Model
             int linha = int.Parse(casaInicialStr[1].ToString());
             int coluna = -1;
             string colunaChar = casaInicialStr[0].ToString();
+
+            int count = 1;
+            for (int i = 8; i >= 1; i--)
+            {
+                if (linha == i)
+                {
+                    linha = count - 1;
+                    break;
+                }
+                count++;
+            }
 
             for (int i = 0; i < letras.Length; i++)
             {
@@ -123,11 +152,12 @@ namespace Hub.Model
         {
             Console.Clear();
             string[,] tabuleiro = new string[8, 8];
+            int num = 8;
 
             Console.WriteLine(new string('-', 27));
             for (int i = 0; i < 8; i++)
             {
-                Console.Write($"{i} ");
+                Console.Write($"{num} ");
                 for (int j = 0; j < 8; j++)
                 {
 
@@ -235,6 +265,7 @@ namespace Hub.Model
 
                 }
                 Console.Write("\n");
+                num--;
             }
             Console.WriteLine("   a  b  c  d  e  f  g  h");
             Console.WriteLine(new string('-', 27));
@@ -252,10 +283,10 @@ namespace Hub.Model
         {
             Console.Clear();
             Console.WriteLine(new string('-', 27));
-
+            int num = 8;
             for (int i = 0; i < 8; i++)
             {
-                Console.Write($"{i} ");
+                Console.Write($"{num} ");
                 for (int j = 0; j < 8; j++)
                 {
                     if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0))
@@ -274,6 +305,7 @@ namespace Hub.Model
                     }
                 }
                 Console.Write("\n");
+                num--;
             }
             Console.WriteLine("   a  b  c  d  e  f  g  h");
             Console.WriteLine(new string('-', 27));
@@ -498,11 +530,26 @@ namespace Hub.Model
             return false;
         }
 
-        public string[,] MoverPeao(string corDaPeça, int[] casaInicial, string[,] tabuleiro)
+        public string[,] MoverPeao(string corDaPeça, int[] casaInicial, string[,] tabuleiro, string letraInicial)
         {
             Console.WriteLine("Selecione a casa para qual deseja mover sua peça");
+            string casaStr = Console.ReadLine();
+            int[] casaFinal = ValidarInputDeDados(casaStr);
 
-            int[] casaFinal = ValidarInputDeDados();
+            if (tabuleiro[casaFinal[0], casaFinal[1]] == " ")
+            {
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {casaStr}" : $"{casaStr}";
+                Console.WriteLine(_stringPgn);
+                Console.ReadKey();
+            }
+            else
+            {
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {letraInicial}x{casaStr}" : $"{letraInicial}x{casaStr}";
+                Console.WriteLine(_stringPgn);
+                Console.ReadKey();
+            }
+
+
             do
             {
                 int posicaoAbsolutaInicial = 8 * casaInicial[0] + casaInicial[1] + 1;
@@ -541,14 +588,16 @@ namespace Hub.Model
                     else
                     {
                         Console.WriteLine("Posição invalida, por favor digite novamente ");
-                        casaFinal = ValidarInputDeDados();
+                        casaStr = Console.ReadLine();
+                        casaFinal = ValidarInputDeDados(casaStr);
                     }
 
                 }
                 if (!estaDentroDoTabuleiro)
                 {
                     Console.WriteLine("Posição invalida, por favor digite novamente ");
-                    casaFinal = ValidarInputDeDados();
+                    casaStr = Console.ReadLine();
+                    casaFinal = ValidarInputDeDados(casaStr);
                 }
 
 
@@ -565,7 +614,8 @@ namespace Hub.Model
 
             Console.WriteLine("Selecione a casa para qual deseja mover sua peça");
 
-            int[] casaFinal = ValidarInputDeDados();
+            string casaStr = Console.ReadLine();
+            int[] casaFinal = ValidarInputDeDados(casaStr);
 
             do
             {
@@ -593,11 +643,26 @@ namespace Hub.Model
                     bool casaFinalEstaVazia = valorDaCasaFinal == " ";
                     switch (peça)
                     {
-                        case "Torre": movimentoÉvalido = CondiçãoDeMovimentoDaTorre(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro); break;
-                        case "Cavalo": movimentoÉvalido = CondiçãoDeMovimentoDoCavalo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial); break;
-                        case "Bispo": movimentoÉvalido = CondiçãoDeMovimentoDoBispo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro); break;
-                        case "Rei": movimentoÉvalido = CondiçãoDeMovimentoDoRei(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial); break;
-                        case "Rainha": movimentoÉvalido = CondiçãoDeMovimentoDaTorre(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro) || CondiçãoDeMovimentoDoBispo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro); break;
+                        case "Torre":
+                            movimentoÉvalido = CondiçãoDeMovimentoDaTorre(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro);
+                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "R");
+                            break;
+                        case "Cavalo":
+                            movimentoÉvalido = CondiçãoDeMovimentoDoCavalo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial);
+                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "N");
+                            break;
+                        case "Bispo":
+                            movimentoÉvalido = CondiçãoDeMovimentoDoBispo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro);
+                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "B");
+                            break;
+                        case "Rei":
+                            movimentoÉvalido = CondiçãoDeMovimentoDoRei(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial);
+                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "K");
+                            break;
+                        case "Rainha":
+                            movimentoÉvalido = CondiçãoDeMovimentoDaTorre(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro) || CondiçãoDeMovimentoDoBispo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro);
+                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "Q");
+                            break;
                     }
 
                     bool CasaFinalPodeSerAtacada = corDaPeça == "branca" ? casaFinalÉpeçaPreta : casaFinaléPeçaBranca;
@@ -621,14 +686,16 @@ namespace Hub.Model
                     else
                     {
                         Console.WriteLine("Posição invalida, por favor digite novamente ");
-                        casaFinal = ValidarInputDeDados();
+                        casaStr = Console.ReadLine();
+                        casaFinal = ValidarInputDeDados(casaStr);
                     }
 
                 }
                 if (!estaDentroDoTabuleiro)
                 {
                     Console.WriteLine("Posição invalida, por favor digite novamente ");
-                    casaFinal = ValidarInputDeDados();
+                    casaStr = Console.ReadLine();
+                    casaFinal = ValidarInputDeDados(casaStr);
                 }
 
 
@@ -655,6 +722,7 @@ namespace Hub.Model
 
                 int vencedor = JogarXadrez("Gabriel", "Arthur");
 
+                GerarArquivoPGN(vencedor);
                 AtribuirResultadoXadrez("Gabriel", "Arthur", vencedor, fileName);
 
 
@@ -668,9 +736,10 @@ namespace Hub.Model
         {
             int vezDoJogador = 1;
             int vencedor;
-            bool opçaoValida = true;
+            bool opçaoValida;
             string corDaPeça;
             string[,] tabuleiro = CriarTabuleiro();
+
             do
             {
                 tabuleiro = MostrarTabuleiro(tabuleiro);
@@ -689,9 +758,12 @@ namespace Hub.Model
 
                 ChecarXeque(corDaPeça, tabuleiro);
 
-                int[] casaInicial = ValidarInputDeDados();
+                string casaStr = Console.ReadLine();
+                int[] casaInicial = ValidarInputDeDados(casaStr);
+                string letraInicial = casaStr[0].ToString();
 
                 string peça = tabuleiro[casaInicial[0], casaInicial[1]];
+
 
                 while (true)
                 {
@@ -699,7 +771,7 @@ namespace Hub.Model
                     switch (peça)
                     {
                         case "\x2659" or "\x265F"://Peao
-                            tabuleiro = MoverPeao(corDaPeça, casaInicial, tabuleiro);
+                            tabuleiro = MoverPeao(corDaPeça, casaInicial, tabuleiro, letraInicial);
                             opçaoValida = true;
                             break;
                         case "\x265C" or "\x2656"://Torre
@@ -716,6 +788,7 @@ namespace Hub.Model
                             break;
                         case "\x2655" or "\x265A"://Rei
                             tabuleiro = MoverPeça(corDaPeça, casaInicial, tabuleiro, "Rei");
+                            opçaoValida = true;
                             break;
                         case "\x265B" or "\x2654"://Rainha
                             tabuleiro = MoverPeça(corDaPeça, casaInicial, tabuleiro, "Rainha");
@@ -732,15 +805,16 @@ namespace Hub.Model
                     }
                     else
                     {
-                        peça = Console.ReadLine();
+                        casaStr = Console.ReadLine();
+                        casaInicial = ValidarInputDeDados(casaStr);
+
+                        peça = tabuleiro[casaInicial[0], casaInicial[1]];
                     }
                 }
+                _rodada += 0.5;
 
+                _stringPgn += " ";
                 vezDoJogador = TrocarJogador(vezDoJogador);
-
-
-
-
 
             } while (true);
 
@@ -792,7 +866,6 @@ namespace Hub.Model
 
 
         }
-
         public int ChecarSeReiFoiCapturado(string corDaPeça, string[,] tabuleiro, string player1, string player2)
         {
             int posiçãoAbsolutaReiBranco = posiçãoPeçasBrancas[3];
@@ -820,6 +893,30 @@ namespace Hub.Model
                 return 0;
             }
 
+        }
+        public void GerarArquivoPGN(int vencedor) {
+            int p1 = vencedor == 1 ? 1 : 0;
+            int p2 = vencedor == 2 ? 1 : 0;
+
+            _stringPgn += $"{p1}-{p2}";
+
+            string[] camposPGN = { "[Event 'Xadrez Sharp Coders']","[ Site 'Belo Horizonte, MG BRA']","[Date '2023.01.22']",$"[Round '?']","[White 'Gabriel']","[Black 'Arthur']",$"[Result '{p1}-{p2}']" };
+
+            string rootPath = @"C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\";
+            string filePath = rootPath + "xadrez.pgn";
+
+            File.Create(filePath).Close();
+
+
+            using (StreamWriter sw=new StreamWriter(filePath))
+            {
+                foreach(string campo in camposPGN)
+                {
+                    sw.WriteLine(campo);
+                }
+                sw.WriteLine(_stringPgn);
+               
+            }
         }
         public void AtribuirResultadoXadrez(string player1, string player2, int vencedor, string fileName)
         {
