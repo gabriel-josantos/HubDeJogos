@@ -40,19 +40,15 @@ namespace Hub.Model
             return coords;
         }
 
-        public void ChecagemDeCapturaPGN(string[,] tabuleiro, int[] casaFinal, string casaStr, string corDaPeça, string tipoDePeça)
+        public void ChecagemParaGerarStringPgn(string[,] tabuleiro, int[] casaFinal, string casaStr, string corDaPeça, string tipoDePeça)
         {
             if (tabuleiro[casaFinal[0], casaFinal[1]] == " ")
             {
-                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}{casaStr}" : $"{tipoDePeça}{casaStr}";
-                Console.WriteLine(_stringPgn);
-                Console.ReadKey();
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}{casaStr}" : $"{tipoDePeça}{casaStr}";        
             }
             else
             {
-                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}x{casaStr}" : $"{tipoDePeça}x{casaStr}";
-                Console.WriteLine(_stringPgn);
-                Console.ReadKey();
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}x{casaStr}" : $"{tipoDePeça}x{casaStr}"; 
             }
         }
 
@@ -539,14 +535,11 @@ namespace Hub.Model
             if (tabuleiro[casaFinal[0], casaFinal[1]] == " ")
             {
                 _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {casaStr}" : $"{casaStr}";
-                Console.WriteLine(_stringPgn);
-                Console.ReadKey();
             }
             else
             {
                 _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {letraInicial}x{casaStr}" : $"{letraInicial}x{casaStr}";
-                Console.WriteLine(_stringPgn);
-                Console.ReadKey();
+              
             }
 
 
@@ -645,23 +638,23 @@ namespace Hub.Model
                     {
                         case "Torre":
                             movimentoÉvalido = CondiçãoDeMovimentoDaTorre(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro);
-                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "R");
+                            ChecagemParaGerarStringPgn(tabuleiro, casaFinal, casaStr, corDaPeça, "R");
                             break;
                         case "Cavalo":
                             movimentoÉvalido = CondiçãoDeMovimentoDoCavalo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial);
-                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "N");
+                            ChecagemParaGerarStringPgn(tabuleiro, casaFinal, casaStr, corDaPeça, "N");
                             break;
                         case "Bispo":
                             movimentoÉvalido = CondiçãoDeMovimentoDoBispo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro);
-                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "B");
+                            ChecagemParaGerarStringPgn(tabuleiro, casaFinal, casaStr, corDaPeça, "B");
                             break;
                         case "Rei":
                             movimentoÉvalido = CondiçãoDeMovimentoDoRei(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial);
-                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "K");
+                            ChecagemParaGerarStringPgn(tabuleiro, casaFinal, casaStr, corDaPeça, "K");
                             break;
                         case "Rainha":
                             movimentoÉvalido = CondiçãoDeMovimentoDaTorre(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro) || CondiçãoDeMovimentoDoBispo(casaFinal[0], casaFinal[1], linhaInicial, colunaInicial, tabuleiro);
-                            ChecagemDeCapturaPGN(tabuleiro, casaFinal, casaStr, corDaPeça, "Q");
+                            ChecagemParaGerarStringPgn(tabuleiro, casaFinal, casaStr, corDaPeça, "Q");
                             break;
                     }
 
@@ -756,7 +749,7 @@ namespace Hub.Model
 
                 Console.WriteLine($"Vez do jogador {nomeDoJogador}, selecione a casa da peça que deseja mover");
 
-                ChecarXeque(corDaPeça, tabuleiro);
+                bool xeque=ChecarXeque(corDaPeça, tabuleiro);
 
                 string casaStr = Console.ReadLine();
                 int[] casaInicial = ValidarInputDeDados(casaStr);
@@ -813,7 +806,7 @@ namespace Hub.Model
                 }
                 _rodada += 0.5;
 
-                _stringPgn += " ";
+                _stringPgn += xeque? "+ ":" ";
                 vezDoJogador = TrocarJogador(vezDoJogador);
 
             } while (true);
@@ -822,7 +815,7 @@ namespace Hub.Model
 
         }
 
-        public void ChecarXeque(string corDaPeça, string[,] tabuleiro)
+        public bool ChecarXeque(string corDaPeça, string[,] tabuleiro)
         {
 
             string corDoOponente = corDaPeça == "branca" ? "preta" : "branca";
@@ -860,9 +853,10 @@ namespace Hub.Model
 
                 string message = corDaPeça == "branca" ? "O rei branco está em cheque " : "O rei preto está em cheque";
                 Console.WriteLine(message);
+                return true;
             }
 
-
+            return false;
 
 
         }
