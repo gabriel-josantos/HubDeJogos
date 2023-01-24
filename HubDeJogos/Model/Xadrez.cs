@@ -270,6 +270,7 @@ namespace Hub.Model
             Console.WriteLine("");
             Console.WriteLine(" Para jogar, basta digitar a posição da peça que deseja movimentar,como mostradado no tabuleiro");
             Console.WriteLine(" Entao digite a posição da casa para qual deseja mover sua peça");
+            Console.WriteLine(" Para se render basta digitar o numero 0");
             Console.WriteLine("Aperte qualquer tecla para continuar");
             Console.ReadKey();
             return tabuleiro;
@@ -359,7 +360,7 @@ namespace Hub.Model
             {
                 for (int i = 0; i < distancia - 1; i++)
                 {
-                    colunaInicial--;
+                    colunaInicial++;
                     if (tabuleiro[linhaInicial, colunaInicial] != " ")
                     {
                         return false;
@@ -371,7 +372,7 @@ namespace Hub.Model
             {
                 for (int i = 0; i < distancia - 1; i++)
                 {
-                    colunaInicial++;
+                    colunaInicial--;
                     if (tabuleiro[linhaInicial, colunaInicial] != " ")
                     {
                         return false;
@@ -739,12 +740,36 @@ namespace Hub.Model
 
                 Console.WriteLine($"Vez do jogador {nomeDoJogador}, selecione a casa da peça que deseja mover");
 
+                string? casaStr;
+                string letraInicial = "";
+                int[] casaInicial = new int[2];
+                string peça = "";
+                do
+                {
+                    casaStr = Console.ReadLine();
 
-                string casaStr = Console.ReadLine();
-                int[] casaInicial = ValidarInputDeDados(casaStr);
-                string letraInicial = casaStr[0].ToString();
+                    if (casaStr == "0")
+                    {
 
-                string peça = tabuleiro[casaInicial[0], casaInicial[1]];
+                        vencedor = vezDoJogador == 1 ? 2 : 1;
+                        string vitorioso = vencedor == 1 ? player1 : player2;
+                        string perdedor = vencedor == 1 ? player2 : player1;
+                        Console.WriteLine($"O jogador {perdedor} desistiu, o vencedor é {vitorioso} ");
+                        return vencedor;
+                    }
+
+
+                    if (String.IsNullOrEmpty(casaStr) || casaStr.Length!=2)
+                    {
+                        Console.WriteLine("Casa não valida, digite uma casa valida");
+                    }
+                    else
+                    {
+                        casaInicial = ValidarInputDeDados(casaStr);
+                        letraInicial = casaStr[0].ToString();
+                        peça = tabuleiro[casaInicial[0], casaInicial[1]];
+                    }
+                } while (String.IsNullOrEmpty(casaStr) || casaStr.Length !=2);
 
 
                 while (true)
@@ -805,8 +830,6 @@ namespace Hub.Model
                 }
 
                 _stringPgn += xeque ? "+ " : " ";
-                Console.WriteLine(_stringPgn);
-                Console.ReadKey();
                 vezDoJogador = TrocarJogador(vezDoJogador);
 
             } while (true);
@@ -853,6 +876,8 @@ namespace Hub.Model
 
                 string message = corDoOponente == "branca" ? "O rei branco está em cheque " : "O rei preto está em cheque";
                 Console.WriteLine(message);
+                Console.WriteLine("Aperte qualquer tecla para continuar");
+                Console.ReadKey();  
                 return true;
             }
 
@@ -882,7 +907,7 @@ namespace Hub.Model
             if (tabuleiro[casaReiBranco[0], casaReiBranco[1]] != "\x2654")
             {
                 // _stringPgn.Remove(_stringPgn.Length-4);
-                Console.WriteLine($"Xeque Mate!, o jogador {player2} venceu");
+                Console.WriteLine($"Fim de jogo!, o jogador {player2} venceu");
                 Console.WriteLine("Aperte Qualquer tecla para Continuar");
                 Console.ReadKey();
                 return 2;
@@ -890,7 +915,7 @@ namespace Hub.Model
             else if (tabuleiro[casaReiPreto[0], casaReiPreto[1]] != "\x265A")
             {
                 // _stringPgn.Remove(_stringPgn.Length-4);
-                Console.WriteLine($"Xeque Mate!, o jogador {player1} venceu");
+                Console.WriteLine($"Fim de jogo!, o jogador {player1} venceu");
                 Console.WriteLine("Aperte Qualquer tecla para Continuar");
                 Console.ReadKey();
                 return 1;
@@ -906,9 +931,9 @@ namespace Hub.Model
             int p1 = vencedor == 1 ? 1 : 0;
             int p2 = vencedor == 2 ? 1 : 0;
 
-            _stringPgn += $"{p1}-{p2}";
+            _stringPgn += $" {p1}-{p2}";
 
-            string[] camposPGN = { "[Event 'Xadrez Sharp Coders']", "[ Site 'Belo Horizonte, MG BRA']", "[Date '2023.01.22']", $"[Round '?']", "[White 'Gabriel']", "[Black 'Arthur']", $"[Result '{p1}-{p2}']" };
+            string[] camposPGN = { "[Event Xadrez Sharp Coders]", "[ Site Belo Horizonte, MG BRA]", "[Date 2023.01.22]", $"[Round ?]", "[White Gabriel]", "[Black Arthur]", $"[Result {p1}-{p2}]" };
 
             string rootPath = @"C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\";
             string filePath = rootPath + "xadrez.pgn";
@@ -916,15 +941,12 @@ namespace Hub.Model
             File.Create(filePath).Close();
 
 
-            using (StreamWriter sw = new StreamWriter(filePath))
+            using StreamWriter sw = new StreamWriter(filePath);
+            foreach (string campo in camposPGN)
             {
-                foreach (string campo in camposPGN)
-                {
-                    sw.WriteLine(campo);
-                }
-                sw.WriteLine(_stringPgn);
-
+                sw.WriteLine(campo);
             }
+            sw.WriteLine(_stringPgn);
         }
         public void AtribuirResultadoXadrez(string player1, string player2, int vencedor, string fileName)
         {

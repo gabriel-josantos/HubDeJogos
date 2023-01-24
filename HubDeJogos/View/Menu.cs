@@ -66,7 +66,7 @@ namespace Hub.View
                         Console.WriteLine("Mostrar raking terceiro jogo");
                         break;
                     case 4:
-                        Console.WriteLine("Saindo...");
+                        Console.Clear();
                         break;
                     default:
                         Console.WriteLine("Opçao invalida, por favor escolha um valor entre 1,2,3 ou 4");
@@ -98,7 +98,7 @@ namespace Hub.View
                         Console.WriteLine("Jogar terceiro jogo");
                         break;
                     case 5:
-                        Console.WriteLine("Saindo...");
+                        Console.Clear();
                         break;
                     default:
                         Console.WriteLine("Opçao invalida, por favor escolha um valor entre 1,2,3,4 ou 5");

@@ -45,10 +45,10 @@ namespace Hub.Model
             }
             Array.Sort(pontosDeJogadores);
             Array.Reverse(pontosDeJogadores);
-            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("-----------------------TOP-10-----------------------");
             Console.WriteLine("| Jogador | Pontos | Vitorias | Derrotas | Empates |");
 
-            for (int j = 0; j < Jogadores.Count; j++)
+            for (int j = 0; j < 10; j++)
             {
                 //achar o index do player correspondete a primeira pontuação no vetor pontos
                 //Dificil
