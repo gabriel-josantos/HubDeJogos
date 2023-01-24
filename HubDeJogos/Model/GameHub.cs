@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Hub.Model
 {
-    public class HubDeJogos
+    public class GameHub
     {
         static public List<Jogador> Jogadores {get;protected set;}
 
-        public HubDeJogos()
+        public GameHub()
         {
             Jogadores = new List<Jogador>();
         }

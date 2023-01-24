@@ -14,7 +14,7 @@ namespace Hub
         {
             Console.OutputEncoding=System.Text.Encoding.Unicode;
 
-            HubDeJogos hub = new HubDeJogos();
+            GameHub hub = new GameHub();
             JogoDaVelha velha= new JogoDaVelha();
             Xadrez xadrez= new Xadrez();
             string fileName = "JogadoresJson.json";

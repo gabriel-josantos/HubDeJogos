@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hub.Model
 {
-    public class JogoDaVelha : HubDeJogos
+    public class JogoDaVelha : GameHub
     {
 
         public JogoDaVelha()

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Hub.Model
 {
-    public class Xadrez : HubDeJogos
+    public class Xadrez : GameHub
     {
         /*
          Ler o tabueleiro,e pegar as posições atuais das peças*/
@@ -23,10 +23,10 @@ namespace Hub.Model
 
         private string _peaoPreto = "\x265F";
         private string _peaoBranco = "\x2659";
-        private string[] _peçasPretas = { "\x265C", "\x265E", "\x265D", "\x265A", "\x265B", "\x265D", "\x265E", "\x265C" };
-        private string[] _peçasBrancas = { "\x2656", "\x2658", "\x2657", "\x2654", "\x2655", "\x2657", "\x2658", "\x2656" };
-        private int[] posiçãoPeçasPretas = { 1, 2, 3, 4, 5, 6, 7, 8 };//{Torre,Cavalo,Bispo,Rei,RainhaBispo,Cavalo,Torre}
-        private int[] posiçãoPeçasBrancas = { 57, 58, 59, 60, 61, 62, 63, 64 };//{Torre,Cavalo,Bispo,Rei,Rainha,Bispo,Cavalo,Torre}
+        private string[] _peçasPretas = { "\x265C", "\x265E", "\x265D", "\x265B", "\x265A", "\x265D", "\x265E", "\x265C" };
+        private string[] _peçasBrancas = { "\x2656", "\x2658", "\x2657", "\x2655", "\x2654", "\x2657", "\x2658", "\x2656" };
+        private int[] posiçãoPeçasPretas = { 1, 2, 3, 4, 5, 6, 7, 8 };//{Torre,Cavalo,Bispo,Rainha,Rei,,Bispo,Cavalo,Torre}
+        private int[] posiçãoPeçasBrancas = { 57, 58, 59, 60, 61, 62, 63, 64 };//{Torre,Cavalo,Bispo,Rainha,Rei,Bispo,Cavalo,Torre}
         private double _rodada = 1;
         private string _stringPgn = "";
 
@@ -44,11 +44,11 @@ namespace Hub.Model
         {
             if (tabuleiro[casaFinal[0], casaFinal[1]] == " ")
             {
-                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}{casaStr}" : $"{tipoDePeça}{casaStr}";        
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}{casaStr}" : $"{tipoDePeça}{casaStr}";
             }
             else
             {
-                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}x{casaStr}" : $"{tipoDePeça}x{casaStr}"; 
+                _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {tipoDePeça}x{casaStr}" : $"{tipoDePeça}x{casaStr}";
             }
         }
 
@@ -124,10 +124,10 @@ namespace Hub.Model
             }
             Array.Sort(pontosDeJogadores);
             Array.Reverse(pontosDeJogadores);
-            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine("-----------------------TOP-10-----------------------");
             Console.WriteLine("| Jogador | Pontos | Vitorias | Derrotas | Empates |");
 
-            for (int j = 0; j < Jogadores.Count; j++)
+            for (int j = 0; j < 10; j++)
             {
                 //achar o index do player correspondete a primeira pontuação no vetor pontos
                 //Dificil
@@ -539,7 +539,7 @@ namespace Hub.Model
             else
             {
                 _stringPgn += corDaPeça == "branca" ? $"{_rodada}. {letraInicial}x{casaStr}" : $"{letraInicial}x{casaStr}";
-              
+
             }
 
 
@@ -618,7 +618,6 @@ namespace Hub.Model
                 int linhaInicial = casaInicial[0];
                 int colunaInicial = casaInicial[1];
                 int numPeça = corDaPeça == "branca" ? GetIndexArray(posiçãoPeçasBrancas, posicaoAbsolutaInicial) : GetIndexArray(posiçãoPeçasPretas, posicaoAbsolutaInicial);
-
 
                 bool estaDentroDoTabuleiro = linhaInicial >= 0 && linhaInicial <= 7 && colunaInicial >= 0 && colunaInicial <= 7;
 
@@ -704,27 +703,24 @@ namespace Hub.Model
         }
         public void InicializarJogo(string fileName)
         {
-            //Console.WriteLine("Digite o usuario do Jogador 1");
-            //string player1 = Console.ReadLine();
-            //Console.WriteLine("Digite o usuario do Jogador 2");
-            //string player2 = Console.ReadLine();
+            Console.WriteLine("Digite o usuario do Jogador 1");
+            string player1 = Console.ReadLine();
+            Console.WriteLine("Digite o usuario do Jogador 2");
+            string player2 = Console.ReadLine();
 
-            if (ChecarExistenciaDeJogador("Gabriel") && ChecarExistenciaDeJogador("Arthur"))
+            if (ChecarExistenciaDeJogador(player1) && ChecarExistenciaDeJogador(player2))
             {
-
-
-                int vencedor = JogarXadrez("Gabriel", "Arthur");
+                int vencedor = JogarXadrez(player1, player2);
 
                 GerarArquivoPGN(vencedor);
-                AtribuirResultadoXadrez("Gabriel", "Arthur", vencedor, fileName);
-
-
+                AtribuirResultadoXadrez(player1, player2, vencedor, fileName);
             }
             else
             {
                 Console.WriteLine("usuário inexistente");
             }
         }
+
         public int JogarXadrez(string player1, string player2)
         {
             int vezDoJogador = 1;
@@ -740,16 +736,9 @@ namespace Hub.Model
                 corDaPeça = vezDoJogador == 1 ? "branca" : "preta";
                 string nomeDoJogador = vezDoJogador == 1 ? player1 : player2;
 
-                vencedor = ChecarSeReiFoiCapturado(corDaPeça, tabuleiro, player1, player2);
-
-                if (vencedor == 1 || vencedor == 2)
-                {
-                    return vencedor;
-                }
 
                 Console.WriteLine($"Vez do jogador {nomeDoJogador}, selecione a casa da peça que deseja mover");
 
-                bool xeque=ChecarXeque(corDaPeça, tabuleiro);
 
                 string casaStr = Console.ReadLine();
                 int[] casaInicial = ValidarInputDeDados(casaStr);
@@ -779,11 +768,11 @@ namespace Hub.Model
                             tabuleiro = MoverPeça(corDaPeça, casaInicial, tabuleiro, "Bispo");
                             opçaoValida = true;
                             break;
-                        case "\x2655" or "\x265A"://Rei
+                        case "\x2654" or "\x265A"://Rei
                             tabuleiro = MoverPeça(corDaPeça, casaInicial, tabuleiro, "Rei");
                             opçaoValida = true;
                             break;
-                        case "\x265B" or "\x2654"://Rainha
+                        case "\x265B" or "\x2655"://Rainha
                             tabuleiro = MoverPeça(corDaPeça, casaInicial, tabuleiro, "Rainha");
                             opçaoValida = true;
                             break;
@@ -805,8 +794,19 @@ namespace Hub.Model
                     }
                 }
                 _rodada += 0.5;
+                bool xeque = ChecarXeque(corDaPeça, tabuleiro);
 
-                _stringPgn += xeque? "+ ":" ";
+                vencedor = ChecarSeReiFoiCapturado(tabuleiro, player1, player2);
+
+
+                if (vencedor == 1 || vencedor == 2)
+                {
+                    return vencedor;
+                }
+
+                _stringPgn += xeque ? "+ " : " ";
+                Console.WriteLine(_stringPgn);
+                Console.ReadKey();
                 vezDoJogador = TrocarJogador(vezDoJogador);
 
             } while (true);
@@ -820,23 +820,23 @@ namespace Hub.Model
 
             string corDoOponente = corDaPeça == "branca" ? "preta" : "branca";
 
-            int posiçãoRei = corDaPeça == "branca" ? posiçãoPeçasBrancas[3] : posiçãoPeçasPretas[3];
+            int posiçãoRei = corDoOponente == "branca" ? posiçãoPeçasBrancas[4] : posiçãoPeçasPretas[4];
             int[] casaRei = RetornarPosiçãoNoTabuleiro(posiçãoRei);
 
 
-            int posiçãoTorre1 = corDoOponente == "branca" ? posiçãoPeçasBrancas[0] : posiçãoPeçasPretas[0];
+            int posiçãoTorre1 = corDaPeça == "branca" ? posiçãoPeçasBrancas[0] : posiçãoPeçasPretas[0];
             int[] casaTorre1 = RetornarPosiçãoNoTabuleiro(posiçãoTorre1);
-            int posiçãoTorre2 = corDoOponente == "branca" ? posiçãoPeçasBrancas[7] : posiçãoPeçasPretas[7];
+            int posiçãoTorre2 = corDaPeça == "branca" ? posiçãoPeçasBrancas[7] : posiçãoPeçasPretas[7];
             int[] casaTorre2 = RetornarPosiçãoNoTabuleiro(posiçãoTorre2);
-            int posiçãoCavalo1 = corDoOponente == "branca" ? posiçãoPeçasBrancas[1] : posiçãoPeçasPretas[1];
+            int posiçãoCavalo1 = corDaPeça == "branca" ? posiçãoPeçasBrancas[1] : posiçãoPeçasPretas[1];
             int[] casaCavalo1 = RetornarPosiçãoNoTabuleiro(posiçãoCavalo1);
-            int posiçãoCavalo2 = corDoOponente == "branca" ? posiçãoPeçasBrancas[6] : posiçãoPeçasPretas[6];
+            int posiçãoCavalo2 = corDaPeça == "branca" ? posiçãoPeçasBrancas[6] : posiçãoPeçasPretas[6];
             int[] casaCavalo2 = RetornarPosiçãoNoTabuleiro(posiçãoCavalo2);
-            int posiçãoBispo1 = corDoOponente == "branca" ? posiçãoPeçasBrancas[2] : posiçãoPeçasPretas[2];
+            int posiçãoBispo1 = corDaPeça == "branca" ? posiçãoPeçasBrancas[2] : posiçãoPeçasPretas[2];
             int[] casaBispo1 = RetornarPosiçãoNoTabuleiro(posiçãoBispo1);
-            int posiçãoBispo2 = corDoOponente == "branca" ? posiçãoPeçasBrancas[5] : posiçãoPeçasPretas[5];
+            int posiçãoBispo2 = corDaPeça == "branca" ? posiçãoPeçasBrancas[5] : posiçãoPeçasPretas[5];
             int[] casaBispo2 = RetornarPosiçãoNoTabuleiro(posiçãoBispo2);
-            int posiçãoRainha = corDoOponente == "branca" ? posiçãoPeçasBrancas[4] : posiçãoPeçasPretas[3];
+            int posiçãoRainha = corDaPeça == "branca" ? posiçãoPeçasBrancas[3] : posiçãoPeçasPretas[3];
             int[] casaRainha = RetornarPosiçãoNoTabuleiro(posiçãoRainha);
 
             bool chequeDeTorre1 = CondiçãoDeMovimentoDaTorre(casaTorre1[0], casaTorre1[1], casaRei[0], casaRei[1], tabuleiro);
@@ -851,25 +851,37 @@ namespace Hub.Model
             if (chequeDeTorre1 || chequeDeTorre2 || chequeDeCavalo1 || chequeDeCavalo2 || chequeDeBispo1 || chequeDeBispo2 || chequeDeRainha)
             {
 
-                string message = corDaPeça == "branca" ? "O rei branco está em cheque " : "O rei preto está em cheque";
+                string message = corDoOponente == "branca" ? "O rei branco está em cheque " : "O rei preto está em cheque";
                 Console.WriteLine(message);
                 return true;
             }
+
+            //ChecarXequeMate(casaRei[0] + 1, casaRei[1]);
+            //ChecarXequeMate(casaRei[0] - 1, casaRei[1]);
+            //ChecarXequeMate(casaRei[0], casaRei[1] + 1);
+            //ChecarXequeMate(casaRei[0], casaRei[1] - 1);
+            //ChecarXequeMate(casaRei[0] + 1, casaRei[1] + 1);
+            //ChecarXequeMate(casaRei[0] + 1, casaRei[1] - 1);
+            //ChecarXequeMate(casaRei[0] - 1, casaRei[1] + 1);
+            //ChecarXequeMate(casaRei[0] - 1, casaRei[1] - 1);
+
+
 
             return false;
 
 
         }
-        public int ChecarSeReiFoiCapturado(string corDaPeça, string[,] tabuleiro, string player1, string player2)
+        public int ChecarSeReiFoiCapturado(string[,] tabuleiro, string player1, string player2)
         {
-            int posiçãoAbsolutaReiBranco = posiçãoPeçasBrancas[3];
+            int posiçãoAbsolutaReiBranco = posiçãoPeçasBrancas[4];
             int[] casaReiBranco = RetornarPosiçãoNoTabuleiro(posiçãoAbsolutaReiBranco);
-            int posiçãoAbsolutaReiPreto = posiçãoPeçasPretas[3];
+            int posiçãoAbsolutaReiPreto = posiçãoPeçasPretas[4];
             int[] casaReiPreto = RetornarPosiçãoNoTabuleiro(posiçãoAbsolutaReiPreto);
 
 
             if (tabuleiro[casaReiBranco[0], casaReiBranco[1]] != "\x2654")
             {
+                // _stringPgn.Remove(_stringPgn.Length-4);
                 Console.WriteLine($"Xeque Mate!, o jogador {player2} venceu");
                 Console.WriteLine("Aperte Qualquer tecla para Continuar");
                 Console.ReadKey();
@@ -877,6 +889,7 @@ namespace Hub.Model
             }
             else if (tabuleiro[casaReiPreto[0], casaReiPreto[1]] != "\x265A")
             {
+                // _stringPgn.Remove(_stringPgn.Length-4);
                 Console.WriteLine($"Xeque Mate!, o jogador {player1} venceu");
                 Console.WriteLine("Aperte Qualquer tecla para Continuar");
                 Console.ReadKey();
@@ -888,13 +901,14 @@ namespace Hub.Model
             }
 
         }
-        public void GerarArquivoPGN(int vencedor) {
+        public void GerarArquivoPGN(int vencedor)
+        {
             int p1 = vencedor == 1 ? 1 : 0;
             int p2 = vencedor == 2 ? 1 : 0;
 
             _stringPgn += $"{p1}-{p2}";
 
-            string[] camposPGN = { "[Event 'Xadrez Sharp Coders']","[ Site 'Belo Horizonte, MG BRA']","[Date '2023.01.22']",$"[Round '?']","[White 'Gabriel']","[Black 'Arthur']",$"[Result '{p1}-{p2}']" };
+            string[] camposPGN = { "[Event 'Xadrez Sharp Coders']", "[ Site 'Belo Horizonte, MG BRA']", "[Date '2023.01.22']", $"[Round '?']", "[White 'Gabriel']", "[Black 'Arthur']", $"[Result '{p1}-{p2}']" };
 
             string rootPath = @"C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\";
             string filePath = rootPath + "xadrez.pgn";
@@ -902,14 +916,14 @@ namespace Hub.Model
             File.Create(filePath).Close();
 
 
-            using (StreamWriter sw=new StreamWriter(filePath))
+            using (StreamWriter sw = new StreamWriter(filePath))
             {
-                foreach(string campo in camposPGN)
+                foreach (string campo in camposPGN)
                 {
                     sw.WriteLine(campo);
                 }
                 sw.WriteLine(_stringPgn);
-               
+
             }
         }
         public void AtribuirResultadoXadrez(string player1, string player2, int vencedor, string fileName)
