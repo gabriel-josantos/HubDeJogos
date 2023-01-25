@@ -119,7 +119,7 @@ namespace Hub.Model
 
         public int ChecarCondiçãoDeVitoria(string player1, string player2, string[,] jogo, int numeroDaJogada)
         {
-            int vencedor;
+            int vencedor = 0;
             string[] linhas = new string[3];
             string[] colunas = new string[3];
             string diagonal = "";
@@ -177,14 +177,17 @@ namespace Hub.Model
                     return vencedor;
 
                 }
-                else if (numeroDaJogada == 9)
-                {
-                    vencedor = 3;
-                    MostrarJogoDaVelha(jogo);
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine("Empate");
-                    return vencedor;
-                }
+
+
+            }
+
+            if (numeroDaJogada == 9 && vencedor == 0)
+            {
+                vencedor = 3;
+                MostrarJogoDaVelha(jogo);
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Empate");
+                return vencedor;
             }
 
             return 0;
@@ -313,6 +316,7 @@ namespace Hub.Model
                     int vencedor = JogarVelha(player1, player2, jogo, cpu);
                     AtribuirResultadoVelha(player1, player2, vencedor, fileName);
                     Console.WriteLine("Deseja jogar novamente? (1 - Sim | 2 - Não)");
+
                 } while (int.Parse(Console.ReadLine()) != 2);
 
                 Console.ForegroundColor = ConsoleColor.White;

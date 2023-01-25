@@ -11,20 +11,20 @@ namespace Hub.Model
     {
         public string Usuario { get; set; }
         public string Nome { get; set; }
-        public DadosXadrez DadosXadrez { get; set; } 
+        public DadosXadrez DadosXadrez { get; set; }
 
         public DadosVelha DadosVelha { get; set; }
-        
- 
+
+
 
         public Jogador(string usuario, string nome)
         {
             Usuario = usuario;
             Nome = nome;
-            DadosXadrez=new DadosXadrez();
-            DadosVelha= new DadosVelha(); 
+            DadosXadrez = new DadosXadrez();
+            DadosVelha = new DadosVelha();
         }
 
-       
+
     }
 }
