@@ -144,6 +144,26 @@ namespace Hub.Model
 
         }
 
+        public bool ChecarSeleçãoDePeçaAdversaria(string corDaPeça, int[] casaInicial, string[,] tabuleiro)
+        {
+            if (corDaPeça == "branca")
+            {
+
+                if (_peçasPretas.Contains(tabuleiro[casaInicial[0], casaInicial[1]]) || tabuleiro[casaInicial[0], casaInicial[1]] == _peaoPreto)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (_peçasBrancas.Contains(tabuleiro[casaInicial[0], casaInicial[1]]) || tabuleiro[casaInicial[0], casaInicial[1]] == _peaoBranco)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public string[,] CriarTabuleiro()
         {
             Console.Clear();
@@ -759,7 +779,7 @@ namespace Hub.Model
                     }
 
 
-                    if (String.IsNullOrEmpty(casaStr) || casaStr.Length!=2)
+                    if (String.IsNullOrEmpty(casaStr) || casaStr.Length != 2)
                     {
                         Console.WriteLine("Casa não valida, digite uma casa valida");
                     }
@@ -769,7 +789,13 @@ namespace Hub.Model
                         letraInicial = casaStr[0].ToString();
                         peça = tabuleiro[casaInicial[0], casaInicial[1]];
                     }
-                } while (String.IsNullOrEmpty(casaStr) || casaStr.Length !=2);
+
+                    if (ChecarSeleçãoDePeçaAdversaria(corDaPeça, casaInicial, tabuleiro))
+                    {
+                        Console.WriteLine("Voce selecionou uma peça adversaria, digite uma peça valida");
+                    }
+
+                } while (String.IsNullOrEmpty(casaStr) || casaStr.Length != 2|| ChecarSeleçãoDePeçaAdversaria(corDaPeça, casaInicial, tabuleiro));
 
 
                 while (true)
@@ -877,7 +903,7 @@ namespace Hub.Model
                 string message = corDoOponente == "branca" ? "O rei branco está em cheque " : "O rei preto está em cheque";
                 Console.WriteLine(message);
                 Console.WriteLine("Aperte qualquer tecla para continuar");
-                Console.ReadKey();  
+                Console.ReadKey();
                 return true;
             }
 
@@ -935,8 +961,10 @@ namespace Hub.Model
 
             string[] camposPGN = { "[Event Xadrez Sharp Coders]", "[ Site Belo Horizonte, MG BRA]", "[Date 2023.01.22]", $"[Round ?]", "[White Gabriel]", "[Black Arthur]", $"[Result {p1}-{p2}]" };
 
-            string rootPath = @"C:\Users\gabri\OneDrive\Área de Trabalho\SharpCoders\HubDeJogos\";
-            string filePath = rootPath + "xadrez.pgn";
+
+
+
+            string filePath = @"..\..\..\..\pgn\xadrez.pgn";
 
             File.Create(filePath).Close();
 
