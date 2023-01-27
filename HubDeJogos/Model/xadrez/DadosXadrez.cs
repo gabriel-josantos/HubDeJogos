@@ -1,6 +1,6 @@
-﻿namespace Hub.Model
+﻿namespace Hub.Model.xadrez
 {
-    public class DadosVelha
+    public class DadosXadrez
     {
         public int Vitorias { get; set; }
         public int Empates { get; set; }
@@ -12,5 +12,6 @@
 
             Pontuacao = vitorias * 2 + empates * 1 - derrotas * 1;
         }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Hub.Model.Peças
+﻿namespace Hub.Model.xadrez.Peças
 {
     public class PeaoPreto
     {

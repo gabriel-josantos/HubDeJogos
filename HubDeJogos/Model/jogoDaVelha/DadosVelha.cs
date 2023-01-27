@@ -1,6 +1,6 @@
-﻿namespace Hub.Model
+﻿namespace Hub.Model.jogoDaVelha
 {
-    public class DadosNaval
+    public class DadosVelha
     {
         public int Vitorias { get; set; }
         public int Empates { get; set; }

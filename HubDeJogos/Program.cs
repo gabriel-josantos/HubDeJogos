@@ -2,6 +2,9 @@
 using System.Data;
 using System.Reflection;
 using System.Text.Json;
+using Hub.Model.batalhaNaval;
+using Hub.Model.jogoDaVelha;
+using Hub.Model.xadrez;
 using Hub.Model;
 using Hub.View;
 

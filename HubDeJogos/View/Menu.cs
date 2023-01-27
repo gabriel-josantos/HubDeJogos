@@ -1,4 +1,7 @@
-﻿using Hub.Model;
+﻿using Hub.Model.batalhaNaval;
+using Hub.Model.jogoDaVelha;
+using Hub.Model.xadrez;
+using Hub.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,7 @@
 ﻿using System.Data.SqlTypes;
+using Hub.Model.batalhaNaval;
 
-namespace Hub.Model
+namespace Hub.Model.batalhaNaval
 {
     public class BatalhaNaval : GameHub
     {

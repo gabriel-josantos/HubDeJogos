@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hub.Model.Peças
+namespace Hub.Model.xadrez.Peças
 {
     public class PeaoBranco
     {

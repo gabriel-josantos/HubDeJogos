@@ -1,4 +1,5 @@
-﻿using Hub.Model.Peças;
+﻿using Hub.Model;
+using Hub.Model.xadrez.Peças;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Hub.Model
+namespace Hub.Model.xadrez
 {
     public class Xadrez : GameHub
     {
@@ -144,7 +145,7 @@ namespace Hub.Model
                 for (int j = 0; j < 8; j++)
                 {
 
-                    if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0))
+                    if (i % 2 == 0 && j % 2 == 0 || i % 2 != 0 && j % 2 != 0)
                     {
                         if (i == 0)
                         {
@@ -273,7 +274,7 @@ namespace Hub.Model
                 Console.Write($"{num} ");
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0))
+                    if (i % 2 == 0 && j % 2 == 0 || i % 2 != 0 && j % 2 != 0)
                     {
                         Console.BackgroundColor = ConsoleColor.White;
                         Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -298,14 +299,14 @@ namespace Hub.Model
         public bool CondiçãoDeMovimentoDoCavalo(int linhaFinal, int colunaFinal, int linhaInicial, int colunaInicial)
         {
             bool casaFinalSatisfazCavalo =
-                (linhaFinal == linhaInicial + 2 && colunaFinal == colunaInicial + 1) ||
-                (linhaFinal == linhaInicial - 2 && colunaFinal == colunaInicial + 1) ||
-                (linhaFinal == linhaInicial + 2 && colunaFinal == colunaInicial - 1) ||
-                (linhaFinal == linhaInicial - 2 && colunaFinal == colunaInicial - 1) ||
-                (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial + 2) ||
-                (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial - 2) ||
-                (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial + 2) ||
-                (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial - 2);
+                linhaFinal == linhaInicial + 2 && colunaFinal == colunaInicial + 1 ||
+                linhaFinal == linhaInicial - 2 && colunaFinal == colunaInicial + 1 ||
+                linhaFinal == linhaInicial + 2 && colunaFinal == colunaInicial - 1 ||
+                linhaFinal == linhaInicial - 2 && colunaFinal == colunaInicial - 1 ||
+                linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial + 2 ||
+                linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial - 2 ||
+                linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial + 2 ||
+                linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial - 2;
 
             return casaFinalSatisfazCavalo;
         }
@@ -375,14 +376,14 @@ namespace Hub.Model
         public bool CondiçãoDeMovimentoDoRei(int linhaFinal, int colunaFinal, int linhaInicial, int colunaInicial)
         {
             bool condiçãoQueSatisfazRei =
-                (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial + 1) ||
-                (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial - 1) ||
-                (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial + 1) ||
-                (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial - 1) ||
-                (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial) ||
-                (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial) ||
-                (linhaFinal == linhaInicial && colunaFinal == colunaInicial + 1) ||
-                (linhaFinal == linhaInicial && colunaFinal == colunaInicial - 1);
+                linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial + 1 ||
+                linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial - 1 ||
+                linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial + 1 ||
+                linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial - 1 ||
+                linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial ||
+                linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial ||
+                linhaFinal == linhaInicial && colunaFinal == colunaInicial + 1 ||
+                linhaFinal == linhaInicial && colunaFinal == colunaInicial - 1;
 
 
             return condiçãoQueSatisfazRei;
@@ -459,11 +460,11 @@ namespace Hub.Model
             {
                 if (_peça.PeaoBranco.Movimento[numPeça] == 0)
                 {
-                    condiçãoQueSatisfazPeão = (linhaFinal == linhaInicial - 2 && colunaFinal == colunaInicial) || (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial);
+                    condiçãoQueSatisfazPeão = linhaFinal == linhaInicial - 2 && colunaFinal == colunaInicial || linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial;
                 }
                 else
                 {
-                    condiçãoQueSatisfazPeão = (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial);
+                    condiçãoQueSatisfazPeão = linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial;
                 }
                 return condiçãoQueSatisfazPeão;
             }
@@ -471,11 +472,11 @@ namespace Hub.Model
             {
                 if (_peça.PeaoPreto.Movimento[numPeça] == 0)
                 {
-                    condiçãoQueSatisfazPeão = (linhaFinal == linhaInicial + 2 && colunaFinal == colunaInicial) || (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial);
+                    condiçãoQueSatisfazPeão = linhaFinal == linhaInicial + 2 && colunaFinal == colunaInicial || linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial;
                 }
                 else
                 {
-                    condiçãoQueSatisfazPeão = (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial);
+                    condiçãoQueSatisfazPeão = linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial;
                 }
 
 
@@ -498,15 +499,15 @@ namespace Hub.Model
                 if (corDaPeça == "branca")
                 {
                     condiçãoQueSatisfazAtaque =
-                    (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial + 1) ||
-                    (linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial - 1);
+                    linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial + 1 ||
+                    linhaFinal == linhaInicial - 1 && colunaFinal == colunaInicial - 1;
                     return condiçãoQueSatisfazAtaque;
                 }
                 else
                 {
                     condiçãoQueSatisfazAtaque =
-                    (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial + 1) ||
-                    (linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial - 1);
+                    linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial + 1 ||
+                    linhaFinal == linhaInicial + 1 && colunaFinal == colunaInicial - 1;
                     return condiçãoQueSatisfazAtaque;
                 }
             }
@@ -736,7 +737,7 @@ namespace Hub.Model
                     }
 
 
-                    if (String.IsNullOrEmpty(casaStr) || casaStr.Length != 2)
+                    if (string.IsNullOrEmpty(casaStr) || casaStr.Length != 2)
                     {
                         Console.WriteLine("Casa não valida, digite uma casa valida");
                     }
@@ -752,7 +753,7 @@ namespace Hub.Model
                         Console.WriteLine("Voce selecionou uma peça adversaria, digite uma peça valida");
                     }
 
-                } while (String.IsNullOrEmpty(casaStr) || casaStr.Length != 2 || ChecarSeleçãoDePeçaAdversaria(corDaPeça, casaInicial, tabuleiro));
+                } while (string.IsNullOrEmpty(casaStr) || casaStr.Length != 2 || ChecarSeleçãoDePeçaAdversaria(corDaPeça, casaInicial, tabuleiro));
 
 
                 while (true)

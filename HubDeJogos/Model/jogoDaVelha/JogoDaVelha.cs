@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Hub.Model;
 
-namespace Hub.Model
+namespace Hub.Model.jogoDaVelha
 {
     public class JogoDaVelha : GameHub
     {
@@ -42,7 +43,7 @@ namespace Hub.Model
             {
                 for (int j = 0; j < 3; j++)
                 {
-                   
+
                     if (j == 2)
                     {
                         Console.Write($"| ");
@@ -258,7 +259,7 @@ namespace Hub.Model
             return jogadaDeIminencia;
         }
 
-        public void InicializarJogo(string fileName,Jogador[] jogadores, bool cpu)
+        public void InicializarJogo(string fileName, Jogador[] jogadores, bool cpu)
         {
             string player1;
             string player2;
@@ -274,27 +275,27 @@ namespace Hub.Model
                 player2 = jogadores[0].Usuario;
             }
 
-                string[,] jogo = new string[3, 3];
-                do
+            string[,] jogo = new string[3, 3];
+            do
+            {
+
+                for (int i = 0; i < 3; i++)
                 {
-
-                    for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
                     {
-                        for (int j = 0; j < 3; j++)
-                        {
-                            jogo[i, j] = " ";
-                        }
+                        jogo[i, j] = " ";
                     }
+                }
 
-                    int vencedor = JogarVelha(player1, player2, jogo, cpu);
-                AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName,"velha");
-                    Console.WriteLine("Deseja jogar novamente? (1 - Sim | 2 - Não)");
+                int vencedor = JogarVelha(player1, player2, jogo, cpu);
+                AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName, "velha");
+                Console.WriteLine("Deseja jogar novamente? (1 - Sim | 2 - Não)");
 
-                } while (int.Parse(Console.ReadLine()) != 2);
+            } while (int.Parse(Console.ReadLine()) != 2);
 
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Clear();
-         
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Clear();
+
         }
 
         public int JogadaDoCPU(string[,] jogo, string primeiroJogagor)
