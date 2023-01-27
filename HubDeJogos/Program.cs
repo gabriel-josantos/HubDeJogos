@@ -9,25 +9,30 @@ namespace Hub
 {
     public class Program
     {
- 
         public static void Main(string[] args)
         {
-            Console.OutputEncoding=System.Text.Encoding.Unicode;
-
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
             GameHub hub = new GameHub();
-            JogoDaVelha velha= new JogoDaVelha();
-            Xadrez xadrez= new Xadrez();
+            JogoDaVelha velha = new JogoDaVelha();
+            Xadrez xadrez = new Xadrez();
+            BatalhaNaval naval = new BatalhaNaval();
             string fileName = "JogadoresJson.json";
+            hub.LerArquivoJsonDeJogadores(fileName);
+
+            Console.WriteLine(new string('-', 40));
             Console.WriteLine("Seja bem vindo ao nosso hub de jogos!");
-            Console.WriteLine("Por favor selecione uma das seguintes opções");
+            Console.WriteLine(new string('-', 40));
+            Console.WriteLine("");
+            Console.WriteLine("Por favor faça o login dos jogadores para começar");
+
+            Jogador[] jogadores = hub.FazerLoginDeJogadores();
 
             int opt;
             hub.LerArquivoJsonDeJogadores(fileName);
-      
+
 
             do
             {
-
                 Menu.ShowMenu();
                 opt = int.Parse(Console.ReadLine());
 
@@ -48,11 +53,11 @@ namespace Hub
                     case 4:
                         hub.DeletarJogador(fileName);
                         break;
-                    case 5:                    
-                        Menu.MostrarOpçoesDeRanking(velha,xadrez);
+                    case 5:
+                        Menu.MostrarOpçoesDeRanking(hub);
                         break;
                     case 6:
-                        Menu.MostrarOpçoesDeJogos(velha,xadrez,fileName);
+                        Menu.MostrarOpçoesDeJogos(velha, xadrez, naval, jogadores, fileName);
                         break;
                     case 7:
                         velha.ResetarPontuações(fileName);

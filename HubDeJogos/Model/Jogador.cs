@@ -10,19 +10,20 @@ namespace Hub.Model
     public class Jogador
     {
         public string Usuario { get; set; }
-        public string Nome { get; set; }
+        public string Senha { get; set; }
         public DadosXadrez DadosXadrez { get; set; }
 
         public DadosVelha DadosVelha { get; set; }
 
+        public DadosNaval DadosNaval { get; set; }
 
-
-        public Jogador(string usuario, string nome)
+        public Jogador(string usuario, string senha)
         {
             Usuario = usuario;
-            Nome = nome;
+            Senha = senha;
             DadosXadrez = new DadosXadrez();
             DadosVelha = new DadosVelha();
+            DadosNaval= new DadosNaval();
         }
 
 

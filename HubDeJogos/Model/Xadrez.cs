@@ -111,39 +111,6 @@ namespace Hub.Model
 
         }
 
-        public void MostrarRankingXadrez()
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.Clear();
-            int[] pontosDeJogadores = new int[Jogadores.Count];
-            List<string> usuariosCopia = new List<string>();
-            for (int i = 0; i < Jogadores.Count; i++)
-            {
-                pontosDeJogadores[i] = Jogadores[i].DadosXadrez.PontuacaoXadrez;
-                usuariosCopia.Add(Jogadores[i].Usuario);
-            }
-            Array.Sort(pontosDeJogadores);
-            Array.Reverse(pontosDeJogadores);
-            Console.WriteLine("-----------------------TOP-10-----------------------");
-            Console.WriteLine("| Jogador | Pontos | Vitorias | Derrotas | Empates |");
-
-            for (int j = 0; j < 10; j++)
-            {
-                //achar o index do player correspondete a primeira pontuação no vetor pontos
-                //Dificil
-                Jogador jogador = Jogadores.Find(player => player.DadosXadrez.PontuacaoXadrez == pontosDeJogadores[j] && usuariosCopia.Exists(jogador => player.Usuario == jogador));
-                Console.WriteLine("|{0,9}|{1,8}|{2,10}|{3,10}|{4,9}|", jogador.Usuario, pontosDeJogadores[j], jogador.DadosXadrez.VitoriasXadrez, jogador.DadosXadrez.DerrotasXadrez, jogador.DadosXadrez.EmpatesXadrez);
-                usuariosCopia.Remove(jogador.Usuario);
-
-            }
-            Console.WriteLine("----------------------------------------------------");
-            Console.WriteLine("");
-
-
-
-
-        }
-
         public bool ChecarSeleçãoDePeçaAdversaria(string corDaPeça, int[] casaInicial, string[,] tabuleiro)
         {
             if (corDaPeça == "branca")
@@ -722,24 +689,14 @@ namespace Hub.Model
 
 
         }
-        public void InicializarJogo(string fileName)
+        public void InicializarJogo(string fileName, Jogador[] jogadores)
         {
-            Console.WriteLine("Digite o usuario do Jogador 1");
-            string player1 = Console.ReadLine();
-            Console.WriteLine("Digite o usuario do Jogador 2");
-            string player2 = Console.ReadLine();
 
-            if (ChecarExistenciaDeJogador(player1) && ChecarExistenciaDeJogador(player2))
-            {
-                int vencedor = JogarXadrez(player1, player2);
+            int vencedor = JogarXadrez(jogadores[0].Usuario, jogadores[1].Usuario);
 
-                GerarArquivoPGN(vencedor);
-                AtribuirResultadoXadrez(player1, player2, vencedor, fileName);
-            }
-            else
-            {
-                Console.WriteLine("usuário inexistente");
-            }
+            GerarArquivoPGN(vencedor);
+            AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName, "xadrez");
+
         }
 
         public int JogarXadrez(string player1, string player2)
@@ -795,7 +752,7 @@ namespace Hub.Model
                         Console.WriteLine("Voce selecionou uma peça adversaria, digite uma peça valida");
                     }
 
-                } while (String.IsNullOrEmpty(casaStr) || casaStr.Length != 2|| ChecarSeleçãoDePeçaAdversaria(corDaPeça, casaInicial, tabuleiro));
+                } while (String.IsNullOrEmpty(casaStr) || casaStr.Length != 2 || ChecarSeleçãoDePeçaAdversaria(corDaPeça, casaInicial, tabuleiro));
 
 
                 while (true)
@@ -976,30 +933,7 @@ namespace Hub.Model
             }
             sw.WriteLine(_stringPgn);
         }
-        public void AtribuirResultadoXadrez(string player1, string player2, int vencedor, string fileName)
-        {
-            Jogador jogador1 = Jogadores.Find(player => player.Usuario == player1);
-            Jogador jogador2 = Jogadores.Find(player => player.Usuario == player2);
-            switch (vencedor)
-            {
-                case 1:
-                    jogador1.DadosXadrez.VitoriasXadrez++;
-                    jogador2.DadosXadrez.DerrotasXadrez++;
-                    break;
-                case 2:
 
-                    jogador2.DadosXadrez.VitoriasXadrez++;
-                    jogador1.DadosXadrez.DerrotasXadrez++;
-                    break;
-                case 3:
-                    jogador1.DadosXadrez.EmpatesXadrez++;
-                    jogador2.DadosXadrez.EmpatesXadrez++;
-                    break;
-            }
-            Jogadores.ForEach(jogador => jogador.DadosXadrez.ObterPontuacaoXadrez(jogador.DadosXadrez.VitoriasXadrez, jogador.DadosXadrez.EmpatesXadrez, jogador.DadosXadrez.DerrotasXadrez));
-            string writeJsonString = JsonSerializer.Serialize(Jogadores);
-            File.WriteAllText(fileName, writeJsonString);
-        }
 
 
 

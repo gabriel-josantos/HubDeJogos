@@ -1,1 +1,267 @@
-[{"Usuario":"Gabriel","Nome":"Gabriel","DadosXadrez":{"VitoriasXadrez":10,"EmpatesXadrez":0,"DerrotasXadrez":6,"PontuacaoXadrez":14},"DadosVelha":{"VitoriasVelha":7,"EmpatesVelha":2,"DerrotasVelha":1,"PontuacaoVelha":15}},{"Usuario":"Arthur","Nome":"Arthur","DadosXadrez":{"VitoriasXadrez":4,"EmpatesXadrez":0,"DerrotasXadrez":6,"PontuacaoXadrez":2},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":1,"DerrotasVelha":1,"PontuacaoVelha":0}},{"Usuario":"Breno","Nome":"Breno","DadosXadrez":{"VitoriasXadrez":2,"EmpatesXadrez":2,"DerrotasXadrez":1,"PontuacaoXadrez":5},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":1,"DerrotasVelha":5,"PontuacaoVelha":-4}},{"Usuario":"Lorena","Nome":"Lorena","DadosXadrez":{"VitoriasXadrez":2,"EmpatesXadrez":0,"DerrotasXadrez":3,"PontuacaoXadrez":1},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}},{"Usuario":"Alexia","Nome":"Alexia","DadosXadrez":{"VitoriasXadrez":1,"EmpatesXadrez":1,"DerrotasXadrez":1,"PontuacaoXadrez":2},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}},{"Usuario":"Thais","Nome":"Thais","DadosXadrez":{"VitoriasXadrez":0,"EmpatesXadrez":2,"DerrotasXadrez":1,"PontuacaoXadrez":1},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}},{"Usuario":"Fernanda","Nome":"Fernanda","DadosXadrez":{"VitoriasXadrez":0,"EmpatesXadrez":0,"DerrotasXadrez":0,"PontuacaoXadrez":0},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}},{"Usuario":"John","Nome":"John Snow","DadosXadrez":{"VitoriasXadrez":0,"EmpatesXadrez":0,"DerrotasXadrez":0,"PontuacaoXadrez":0},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}},{"Usuario":"Marta","Nome":"Marta","DadosXadrez":{"VitoriasXadrez":0,"EmpatesXadrez":0,"DerrotasXadrez":1,"PontuacaoXadrez":-1},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}},{"Usuario":"Mateus","Nome":"Mateus","DadosXadrez":{"VitoriasXadrez":0,"EmpatesXadrez":0,"DerrotasXadrez":0,"PontuacaoXadrez":0},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}},{"Usuario":"Rodrigo","Nome":"Rodrigo","DadosXadrez":{"VitoriasXadrez":0,"EmpatesXadrez":0,"DerrotasXadrez":0,"PontuacaoXadrez":0},"DadosVelha":{"VitoriasVelha":0,"EmpatesVelha":0,"DerrotasVelha":0,"PontuacaoVelha":0}}]
+[
+  {
+    "Usuario": "Cpu",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Gabriel",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 10,
+      "Empates": 0,
+      "Derrotas": 6,
+      "Pontuacao": 14
+    },
+    "DadosVelha": {
+      "Vitorias": 8,
+      "Empates": 2,
+      "Derrotas": 1,
+      "Pontuacao": 17
+    },
+    "DadosNaval": {
+      "Vitorias": 1,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 2
+    }
+  },
+  {
+    "Usuario": "Arthur",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 4,
+      "Empates": 0,
+      "Derrotas": 6,
+      "Pontuacao": 2
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 1,
+      "Derrotas": 2,
+      "Pontuacao": -1
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 1,
+      "Pontuacao": -1
+    }
+  },
+  {
+    "Usuario": "Breno",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 2,
+      "Empates": 2,
+      "Derrotas": 1,
+      "Pontuacao": 5
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 1,
+      "Derrotas": 5,
+      "Pontuacao": -4
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Lorena",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 2,
+      "Empates": 0,
+      "Derrotas": 3,
+      "Pontuacao": 1
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Alexia",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 1,
+      "Empates": 1,
+      "Derrotas": 1,
+      "Pontuacao": 2
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Thais",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 0,
+      "Empates": 2,
+      "Derrotas": 1,
+      "Pontuacao": 1
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Fernanda",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "John",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Marta",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 1,
+      "Pontuacao": -1
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Mateus",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  },
+  {
+    "Usuario": "Rodrigo",
+    "Senha": "1234",
+    "DadosXadrez": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosVelha": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    },
+    "DadosNaval": {
+      "Vitorias": 0,
+      "Empates": 0,
+      "Derrotas": 0,
+      "Pontuacao": 0
+    }
+  }
+
+]

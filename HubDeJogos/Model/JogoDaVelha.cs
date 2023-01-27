@@ -21,48 +21,16 @@ namespace Hub.Model
             foreach (Jogador jogador in Jogadores)
             {
 
-                jogador.DadosVelha.VitoriasVelha = 0;
-                jogador.DadosVelha.DerrotasVelha = 0;
-                jogador.DadosVelha.EmpatesVelha = 0;
-                jogador.DadosVelha.ObterPontuacaoVelha(0, 0, 0);
+                jogador.DadosVelha.Vitorias = 0;
+                jogador.DadosVelha.Derrotas = 0;
+                jogador.DadosVelha.Empates = 0;
+                jogador.DadosVelha.ObterPontuacao(0, 0, 0);
 
             }
 
             string writeJsonString = JsonSerializer.Serialize(Jogadores);
             File.WriteAllText(fileName, writeJsonString);
             Console.WriteLine("Pontuações resetadas com sucesso!");
-        }
-        public void MostrarRankingJogoDaVelha()
-        {
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.Clear();
-            int[] pontosDeJogadores = new int[Jogadores.Count];
-            List<string> usuariosCopia = new List<string>();
-            for (int i = 0; i < Jogadores.Count; i++)
-            {
-                pontosDeJogadores[i] = Jogadores[i].DadosVelha.PontuacaoVelha;
-                usuariosCopia.Add(Jogadores[i].Usuario);
-            }
-            Array.Sort(pontosDeJogadores);
-            Array.Reverse(pontosDeJogadores);
-            Console.WriteLine("-----------------------TOP-10-----------------------");
-            Console.WriteLine("| Jogador | Pontos | Vitorias | Derrotas | Empates |");
-
-            for (int j = 0; j < 10; j++)
-            {
-                //achar o index do player correspondete a primeira pontuação no vetor pontos
-                //Dificil
-                Jogador jogador = Jogadores.Find(player => player.DadosVelha.PontuacaoVelha == pontosDeJogadores[j] && usuariosCopia.Exists(jogador => player.Usuario == jogador));
-                Console.WriteLine("|{0,9}|{1,8}|{2,10}|{3,10}|{4,9}|", jogador.Usuario, pontosDeJogadores[j], jogador.DadosVelha.VitoriasVelha, jogador.DadosVelha.DerrotasVelha, jogador.DadosVelha.EmpatesVelha);
-                usuariosCopia.Remove(jogador.Usuario);
-
-            }
-            Console.WriteLine("----------------------------------------------------");
-            Console.WriteLine("");
-
-
-
-
         }
 
         public void MostrarJogoDaVelha(string[,] jogo)
@@ -74,14 +42,49 @@ namespace Hub.Model
             {
                 for (int j = 0; j < 3; j++)
                 {
-
+                   
                     if (j == 2)
                     {
-                        Console.Write($"| {jogo[i, j]} |");
+                        Console.Write($"| ");
+                        if (jogo[i, j] == "X")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write($"{jogo[i, j]}");
+                            Console.ResetColor();
+                        }
+                        else if (jogo[i, j] == "O")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                            Console.Write($"{jogo[i, j]}");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($" ");
+                        }
+                        Console.Write($" |");
+
                     }
                     else
                     {
-                        Console.Write($"| {jogo[i, j]} ");
+                        Console.Write($"| ");
+                        if (jogo[i, j] == "X")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write($"{jogo[i, j]}");
+                            Console.ResetColor();
+                        }
+                        else if (jogo[i, j] == "O")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                            Console.Write($"{jogo[i, j]}");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.Write($" ");
+                        }
+                        Console.Write($" ");
                     }
 
                 }
@@ -91,30 +94,6 @@ namespace Hub.Model
 
 
 
-        }
-        public void AtribuirResultadoVelha(string player1, string player2, int vencedor, string fileName)
-        {
-            Jogador jogador1 = Jogadores.Find(player => player.Usuario == player1);
-            Jogador jogador2 = Jogadores.Find(player => player.Usuario == player2);
-            switch (vencedor)
-            {
-                case 1:
-                    jogador1.DadosVelha.VitoriasVelha++;
-                    jogador2.DadosVelha.DerrotasVelha++;
-                    break;
-                case 2:
-
-                    jogador2.DadosVelha.VitoriasVelha++;
-                    jogador1.DadosVelha.DerrotasVelha++;
-                    break;
-                case 3:
-                    jogador1.DadosVelha.EmpatesVelha++;
-                    jogador2.DadosVelha.EmpatesVelha++;
-                    break;
-            }
-            Jogadores.ForEach(jogador => jogador.DadosVelha.ObterPontuacaoVelha(jogador.DadosVelha.VitoriasVelha, jogador.DadosVelha.EmpatesVelha, jogador.DadosVelha.DerrotasVelha));
-            string writeJsonString = JsonSerializer.Serialize(Jogadores);
-            File.WriteAllText(fileName, writeJsonString);
         }
 
         public int ChecarCondiçãoDeVitoria(string player1, string player2, string[,] jogo, int numeroDaJogada)
@@ -279,28 +258,22 @@ namespace Hub.Model
             return jogadaDeIminencia;
         }
 
-        public void InicializarJogo(string fileName, bool cpu)
+        public void InicializarJogo(string fileName,Jogador[] jogadores, bool cpu)
         {
-            string player1 = "";
-            string player2 = "";
+            string player1;
+            string player2;
             if (cpu)
             {
-                Console.WriteLine("Digite o usuario do Jogador 1");
-                player1 = Console.ReadLine();
+                player1 = jogadores[0].Usuario;
                 player2 = Jogadores[0].Usuario;
 
             }
             else
             {
-                Console.WriteLine("Digite o usuario do Jogador 1");
-                player1 = Console.ReadLine();
-                Console.WriteLine("Digite o usuario do Jogador 2");
-                player2 = Console.ReadLine();
+                player1 = jogadores[0].Usuario;
+                player2 = jogadores[0].Usuario;
             }
 
-
-            if (ChecarExistenciaDeJogador(player1) && ChecarExistenciaDeJogador(player2))
-            {
                 string[,] jogo = new string[3, 3];
                 do
                 {
@@ -314,18 +287,14 @@ namespace Hub.Model
                     }
 
                     int vencedor = JogarVelha(player1, player2, jogo, cpu);
-                    AtribuirResultadoVelha(player1, player2, vencedor, fileName);
+                AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName,"velha");
                     Console.WriteLine("Deseja jogar novamente? (1 - Sim | 2 - Não)");
 
                 } while (int.Parse(Console.ReadLine()) != 2);
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Clear();
-            }
-            else
-            {
-                Console.WriteLine("usuário inexistente");
-            }
+         
         }
 
         public int JogadaDoCPU(string[,] jogo, string primeiroJogagor)

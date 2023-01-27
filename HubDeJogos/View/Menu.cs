@@ -12,6 +12,11 @@ namespace Hub.View
         public static void ShowMenu()
         {
             Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine(new string('-', 40));
+            Console.WriteLine("Seja bem vindo ao nosso hub de jogos!");
+            Console.WriteLine(new string('-', 40));
+            Console.WriteLine("");
             Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - ");
             Console.WriteLine("0 - Sair");
             Console.WriteLine("1 - Cadastrar novo jogador");
@@ -27,9 +32,9 @@ namespace Hub.View
         public static void MostrarMenuDeRankings()
         {
             Console.WriteLine(new string('-', 21));
-            Console.WriteLine("1 - Ranking jogo da velha");
-            Console.WriteLine("2 - Ranking xadrez");
-            Console.WriteLine("3 - Ranking terceiro jogo");
+            Console.WriteLine("1 - Ranking Jogo da Velha");
+            Console.WriteLine("2 - Ranking Xadrez");
+            Console.WriteLine("3 - Raking Batalha Naval");
             Console.WriteLine("4 - Sair"); ;
             Console.WriteLine(new string('-', 21));
         }
@@ -40,13 +45,13 @@ namespace Hub.View
             Console.WriteLine("1 - Jogo da Velha: Jogador vs Jogador");
             Console.WriteLine("2 - Jogo da Velha: Jogador vs Cpu");
             Console.WriteLine("3 - Xadrez: Jogador vs Jogador");
-            Console.WriteLine("4 - Terceiro jogo");
+            Console.WriteLine("4 - Batalha Naval: Jogador vs Jogador");
             Console.WriteLine("5 - Sair");
             Console.WriteLine(new string('-', 21));
 
         }
 
-        public static void MostrarOpçoesDeRanking(JogoDaVelha velha, Xadrez xadrez)
+        public static void MostrarOpçoesDeRanking(GameHub hub)
         {
             Console.Clear();
             int opt;
@@ -57,13 +62,13 @@ namespace Hub.View
                 switch (opt)
                 {
                     case 1:
-                        velha.MostrarRankingJogoDaVelha();
+                        hub.MostrarRankingDeJogo("velha");
                         break;
                     case 2:
-                        xadrez.MostrarRankingXadrez();
+                        hub.MostrarRankingDeJogo("xadrez");       
                         break;
                     case 3:
-                        Console.WriteLine("Mostrar raking terceiro jogo");
+                        hub.MostrarRankingDeJogo("naval");
                         break;
                     case 4:
                         Console.Clear();
@@ -75,7 +80,7 @@ namespace Hub.View
             } while (opt != 4);
 
         }
-        public static void MostrarOpçoesDeJogos(JogoDaVelha velha, Xadrez xadrez, string fileName)
+        public static void MostrarOpçoesDeJogos(JogoDaVelha velha, Xadrez xadrez,BatalhaNaval naval,Jogador[] jogadores, string fileName)
         {
             Console.Clear();
             int opt;
@@ -86,16 +91,16 @@ namespace Hub.View
                 switch (opt)
                 {
                     case 1:
-                        velha.InicializarJogo(fileName, false);
+                        velha.InicializarJogo(fileName,jogadores, false);
                         break;
                     case 2:
-                        velha.InicializarJogo(fileName, true);
+                        velha.InicializarJogo(fileName,jogadores, true);
                         break;
                     case 3:
-                        xadrez.InicializarJogo(fileName);
+                        xadrez.InicializarJogo(fileName,jogadores);
                         break;
                     case 4:
-                        Console.WriteLine("Jogar terceiro jogo");
+                        naval.InicializarJogo(fileName,jogadores);
                         break;
                     case 5:
                         Console.Clear();
