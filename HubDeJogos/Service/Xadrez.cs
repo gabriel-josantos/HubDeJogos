@@ -1,5 +1,5 @@
-﻿using Hub.Model;
-using Hub.Model.xadrez.Peças;
+﻿using Hub.Model.xadrez.Peças;
+using Hub.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,8 +11,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Hub.Service;
+using Hub.Model;
+using Hub.Model.xadrez;
 
-namespace Hub.Model.xadrez
+namespace Hub.Service
 {
     public class Xadrez : GameHub
     {
@@ -814,13 +817,15 @@ namespace Hub.Model.xadrez
                 }
 
                 _stringPgn += xeque ? "+ " : " ";
-                vezDoJogador = TrocarJogador(vezDoJogador);
+
+                vezDoJogador = Helpers.TrocarJogador(vezDoJogador);
 
             } while (true);
 
 
 
         }
+
 
         public bool ChecarXeque(string corDaPeça, string[,] tabuleiro)
         {
@@ -918,9 +923,6 @@ namespace Hub.Model.xadrez
             _stringPgn += $" {p1}-{p2}";
 
             string[] camposPGN = { "[Event Xadrez Sharp Coders]", "[ Site Belo Horizonte, MG BRA]", "[Date 2023.01.22]", $"[Round ?]", "[White Gabriel]", "[Black Arthur]", $"[Result {p1}-{p2}]" };
-
-
-
 
             string filePath = @"..\..\..\..\pgn\xadrez.pgn";
 

@@ -2,11 +2,11 @@
 using System.Data;
 using System.Reflection;
 using System.Text.Json;
-using Hub.Model.batalhaNaval;
 using Hub.Model.jogoDaVelha;
-using Hub.Model.xadrez;
 using Hub.Model;
 using Hub.View;
+using Hub.Utils;
+using Hub.Service;
 
 namespace Hub
 {
@@ -15,24 +15,27 @@ namespace Hub
         public static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.Unicode;
+
             GameHub hub = new GameHub();
             JogoDaVelha velha = new JogoDaVelha();
             Xadrez xadrez = new Xadrez();
             BatalhaNaval naval = new BatalhaNaval();
-            string fileName = "JogadoresJson.json";
-            hub.LerArquivoJsonDeJogadores(fileName);
 
+            string filePath = @"..\..\..\..\data\Jogadores.Json";
+            Helpers.DeserializarJson(filePath);
+
+            Console.ForegroundColor= ConsoleColor.DarkYellow;
             Console.WriteLine(new string('-', 40));
             Console.WriteLine("Seja bem vindo ao nosso hub de jogos!");
             Console.WriteLine(new string('-', 40));
+            Console.ResetColor();
             Console.WriteLine("");
             Console.WriteLine("Por favor faça o login dos jogadores para começar");
+            Console.WriteLine("");
 
             Jogador[] jogadores = hub.FazerLoginDeJogadores();
 
             int opt;
-            hub.LerArquivoJsonDeJogadores(fileName);
-
 
             do
             {
@@ -45,25 +48,25 @@ namespace Hub
                         Console.WriteLine("Encerrando aplicação...");
                         break;
                     case 1:
-                        hub.CadastrarNovoJogador(fileName);
+                        hub.CadastrarNovoJogador(filePath);
                         break;
                     case 2:
                         hub.MostrarJogadoresCadastrados();
                         break;
                     case 3:
-                        hub.AtualizarDadosDeJogador(fileName);
+                        hub.AtualizarDadosDeJogador(filePath);
                         break;
                     case 4:
-                        hub.DeletarJogador(fileName);
+                        hub.DeletarJogador(filePath);
                         break;
                     case 5:
-                        Menu.MostrarOpçoesDeRanking(hub);
+                        MostrarOpçoes.MostrarOpçoesDeRanking(hub);
                         break;
                     case 6:
-                        Menu.MostrarOpçoesDeJogos(velha, xadrez, naval, jogadores, fileName);
+                        MostrarOpçoes.MostrarOpçoesDeJogos(velha, xadrez, naval, jogadores, filePath);
                         break;
                     case 7:
-                        velha.ResetarPontuações(fileName);
+                        hub.ResetarPontuações(filePath);
                         break;
                     default:
                         Console.WriteLine("Opção invalida, por favor digite um valor valido");

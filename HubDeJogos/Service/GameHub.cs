@@ -1,53 +1,50 @@
 ﻿
+using Hub.Model.xadrez;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Hub.Utils;
+using Hub.Model;
 
-namespace Hub.Model
+namespace Hub.Service
 {
     public class GameHub
     {
-        static public List<Jogador> Jogadores { get; protected set; }
+        static public List<Jogador> Jogadores { get; set; }
 
         public GameHub()
         {
             Jogadores = new List<Jogador>();
         }
 
-        public void SerializarJson(string fileName)
-        {
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            string jsonString = JsonSerializer.Serialize(Jogadores, options);
-            File.WriteAllText(fileName, jsonString);
-        }
-        public void LerArquivoJsonDeJogadores(string fileName)
-        {
-            string jsonString = File.ReadAllText(fileName);
-            List<Jogador?> allPlayers = JsonSerializer.Deserialize<List<Jogador?>>(jsonString);
-            allPlayers.ForEach(player => Jogadores.Add(player));
-        }
-
-        public void CadastrarNovoJogador(string fileName)
+        public void CadastrarNovoJogador(string filePath)
         {
             Console.WriteLine("Insira o nome de usuario");
             string usuario = Console.ReadLine();
 
-            if (ChecarExistenciaDeJogador(usuario))
+            while (ChecarExistenciaDeJogador(usuario))
             {
                 Console.WriteLine("Este nome de usuario ja esta sendo utilizado, por favor escolha outro");
+                usuario = Console.ReadLine();
             }
-            else
+
+            Console.WriteLine("Digite uma senha (min 8 chars)");
+            string senha = Console.ReadLine();
+            while (senha.Length < 8)
             {
-                Console.WriteLine("Digite uma senha");
-                string senha = Console.ReadLine();
-                Jogador jogador = new Jogador(usuario, senha);
-                Jogadores.Add(jogador);
-                Console.WriteLine($"usuario {usuario} criado com sucesso");
+                Console.WriteLine("A senha deve possuir no minimo 8 caracteres, digite novamente");
+                senha = Console.ReadLine();
             }
-            SerializarJson(fileName);
+
+            Jogador jogador = new Jogador(usuario, senha);
+
+            Jogadores.Add(jogador);
+            Console.WriteLine($"usuario {usuario} criado com sucesso");
+
+            Helpers.SerializarJson(filePath);
         }
 
         public void MostrarJogadoresCadastrados()
@@ -57,10 +54,11 @@ namespace Hub.Model
 
         }
 
-        public void AtualizarDadosDeJogador(string fileName)
+        public void AtualizarDadosDeJogador(string filePath)
         {
             Console.WriteLine("Digite o usuario do jogador que deseja atualizar");
             string jogadorParaAtualizar = Console.ReadLine();
+
             if (ChecarExistenciaDeJogador(jogadorParaAtualizar))
             {
                 Jogador jogador = EncontrarJogador(jogadorParaAtualizar);
@@ -76,7 +74,7 @@ namespace Hub.Model
                         if (!ChecarExistenciaDeJogador(novoUsuario))
                         {
                             jogador.Usuario = novoUsuario;
-                            SerializarJson(fileName);
+                            Helpers.SerializarJson(filePath);
                             Console.WriteLine("Nome de usuario atualizado com sucesso!");
                             break;
                         }
@@ -90,11 +88,11 @@ namespace Hub.Model
                 }
                 else if (updateOpt == 2)
                 {
-                    Console.WriteLine("Digite o novo nome do jogador");
+                    Console.WriteLine("Digite a nova senha");
                     string novaSenha = Console.ReadLine();
                     jogador.Senha = novaSenha;
-                    SerializarJson(fileName);
-                    Console.WriteLine("Nome de jogador atualizado com sucesso!");
+                    Helpers.SerializarJson(filePath);
+                    Console.WriteLine("Senha atualizada com sucesso!");
                 }
                 else
                 {
@@ -108,7 +106,7 @@ namespace Hub.Model
             }
         }
 
-        public void DeletarJogador(string fileName)
+        public void DeletarJogador(string filePath)
         {
             Console.WriteLine("Digite o usuario do jogador que deseja deletar");
             string jogadorParaDeletar = Console.ReadLine();
@@ -116,7 +114,7 @@ namespace Hub.Model
             {
                 Jogador jogador = EncontrarJogador(jogadorParaDeletar);
                 Jogadores.Remove(jogador);
-                SerializarJson(fileName);
+                Helpers.SerializarJson(filePath);
             }
             else
             {
@@ -134,16 +132,9 @@ namespace Hub.Model
             return Jogadores.Find(jogador => jogador.Usuario == usuario);
         }
 
-        public int TrocarJogador(int vezDoJogador)
+        public void AtribuirResultadoDeJogo(Jogador jogador1, Jogador jogador2, int vencedor, string filePath, string tipoDeJgo)
         {
-            vezDoJogador = vezDoJogador == 1 ? 2 : 1;
-            return vezDoJogador;
-        }
-
-        public void AtribuirResultadoDeJogo(Jogador jogador1, Jogador jogador2, int vencedor, string fileName, string tipoDeJogo)
-        {
-
-            if (tipoDeJogo == "xadrez")
+            if (tipoDeJgo == "xadrez")
             {
                 switch (vencedor)
                 {
@@ -162,10 +153,9 @@ namespace Hub.Model
                 }
 
                 Jogadores.ForEach(jogador => jogador.DadosXadrez.ObterPontuacao(jogador.DadosXadrez.Vitorias, jogador.DadosXadrez.Empates, jogador.DadosXadrez.Derrotas));
-                SerializarJson(fileName);
+                Helpers.SerializarJson(filePath);
             }
-
-            if (tipoDeJogo == "velha")
+            if (tipoDeJgo == "velha")
             {
                 switch (vencedor)
                 {
@@ -184,9 +174,10 @@ namespace Hub.Model
                 }
 
                 Jogadores.ForEach(jogador => jogador.DadosVelha.ObterPontuacao(jogador.DadosVelha.Vitorias, jogador.DadosVelha.Empates, jogador.DadosVelha.Derrotas));
-                SerializarJson(fileName); ;
+                Helpers.SerializarJson(filePath); ;
             }
-            if (tipoDeJogo == "naval")
+
+            if (tipoDeJgo == "naval")
             {
                 switch (vencedor)
                 {
@@ -205,7 +196,7 @@ namespace Hub.Model
                 }
 
                 Jogadores.ForEach(jogador => jogador.DadosNaval.ObterPontuacao(jogador.DadosNaval.Vitorias, jogador.DadosNaval.Empates, jogador.DadosNaval.Derrotas));
-                SerializarJson(fileName); ;
+                Helpers.SerializarJson(filePath);
             }
         }
 
@@ -300,7 +291,7 @@ namespace Hub.Model
 
         public Jogador FazerLogin(int numDeJogador)
         {
-            Console.WriteLine($"Digite o usuario do Jogador {numDeJogador}");
+            Console.Write($"Digite o usuario do Jogador {numDeJogador}: ");
             string player = Console.ReadLine();
             bool jogadorExiste = Jogadores.Exists(jogador => jogador.Usuario == player);
             do
@@ -308,12 +299,12 @@ namespace Hub.Model
                 if (jogadorExiste)
                 {
                     Jogador jogador = Jogadores.Find(jogador => jogador.Usuario == player);
-                    Console.WriteLine($"Digite o a senha do Jogador {numDeJogador}");
+                    Console.Write($"Digite o a senha do Jogador {numDeJogador}: ");
                     string senhaPlayer = Console.ReadLine();
 
                     while (senhaPlayer != jogador.Senha)
                     {
-                        Console.WriteLine("A senha está incorreta, tente novamente");
+                        Console.Write("A senha está incorreta, tente novamente: ");
                         senhaPlayer = Console.ReadLine();
                     }
                     return jogador;
@@ -321,7 +312,7 @@ namespace Hub.Model
                 }
                 else
                 {
-                    Console.WriteLine("Usuario  inexistente, digite um nome de usuario valido");
+                    Console.Write("Usuario  inexistente, digite um nome de usuario valido: ");
                     player = Console.ReadLine();
                     jogadorExiste = Jogadores.Exists(jogador => jogador.Usuario == player);
                 }
@@ -332,17 +323,46 @@ namespace Hub.Model
         {
             Jogador[] jogadores = new Jogador[2];
 
-            //jogadores[0] = FazerLogin(1);
-            //jogadores[1] = FazerLogin(2);
+            jogadores[0] = FazerLogin(1);
+            Console.WriteLine("");
+            jogadores[1] = FazerLogin(2);
 
             //Para teste
-            jogadores[0] = Jogadores[1];
-            jogadores[1] = Jogadores[2];
+            //jogadores[0] = Jogadores[1];
+            //jogadores[1] = Jogadores[2];
             Console.Clear();
 
             return jogadores;
 
 
         }
+
+        public void ResetarPontuações(string filePath)
+        {
+            foreach (Jogador jogador in Jogadores)
+            {
+
+                jogador.DadosVelha.Vitorias = 0;
+                jogador.DadosVelha.Derrotas = 0;
+                jogador.DadosVelha.Empates = 0;
+                jogador.DadosVelha.ObterPontuacao(0, 0, 0);
+
+                jogador.DadosXadrez.Vitorias = 0;
+                jogador.DadosXadrez.Derrotas = 0;
+                jogador.DadosXadrez.Empates = 0;
+                jogador.DadosXadrez.ObterPontuacao(0, 0, 0);
+
+                jogador.DadosNaval.Vitorias = 0;
+                jogador.DadosNaval.Derrotas = 0;
+                jogador.DadosNaval.Empates = 0;
+                jogador.DadosNaval.ObterPontuacao(0, 0, 0);
+
+            }
+
+            string writeJsonString = JsonSerializer.Serialize(Jogadores);
+            File.WriteAllText(filePath, writeJsonString);
+            Console.WriteLine("Pontuações resetadas com sucesso!");
+        }
+
     }
 }

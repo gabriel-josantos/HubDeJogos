@@ -25,22 +25,22 @@
     "Usuario": "Gabriel",
     "Senha": "1234",
     "DadosXadrez": {
-      "Vitorias": 10,
+      "Vitorias": 11,
       "Empates": 0,
       "Derrotas": 6,
-      "Pontuacao": 14
+      "Pontuacao": 16
     },
     "DadosVelha": {
-      "Vitorias": 8,
-      "Empates": 2,
-      "Derrotas": 1,
-      "Pontuacao": 17
+      "Vitorias": 12,
+      "Empates": 4,
+      "Derrotas": 3,
+      "Pontuacao": 25
     },
     "DadosNaval": {
-      "Vitorias": 1,
+      "Vitorias": 2,
       "Empates": 0,
       "Derrotas": 0,
-      "Pontuacao": 2
+      "Pontuacao": 4
     }
   },
   {
@@ -49,20 +49,20 @@
     "DadosXadrez": {
       "Vitorias": 4,
       "Empates": 0,
-      "Derrotas": 6,
-      "Pontuacao": 2
+      "Derrotas": 7,
+      "Pontuacao": 1
     },
     "DadosVelha": {
-      "Vitorias": 0,
+      "Vitorias": 1,
       "Empates": 1,
-      "Derrotas": 2,
-      "Pontuacao": -1
+      "Derrotas": 5,
+      "Pontuacao": -2
     },
     "DadosNaval": {
       "Vitorias": 0,
       "Empates": 0,
-      "Derrotas": 1,
-      "Pontuacao": -1
+      "Derrotas": 2,
+      "Pontuacao": -2
     }
   },
   {
@@ -75,10 +75,10 @@
       "Pontuacao": 5
     },
     "DadosVelha": {
-      "Vitorias": 0,
-      "Empates": 1,
-      "Derrotas": 5,
-      "Pontuacao": -4
+      "Vitorias": 1,
+      "Empates": 3,
+      "Derrotas": 6,
+      "Pontuacao": -1
     },
     "DadosNaval": {
       "Vitorias": 0,
@@ -176,28 +176,6 @@
     }
   },
   {
-    "Usuario": "John",
-    "Senha": "1234",
-    "DadosXadrez": {
-      "Vitorias": 0,
-      "Empates": 0,
-      "Derrotas": 0,
-      "Pontuacao": 0
-    },
-    "DadosVelha": {
-      "Vitorias": 0,
-      "Empates": 0,
-      "Derrotas": 0,
-      "Pontuacao": 0
-    },
-    "DadosNaval": {
-      "Vitorias": 0,
-      "Empates": 0,
-      "Derrotas": 0,
-      "Pontuacao": 0
-    }
-  },
-  {
     "Usuario": "Marta",
     "Senha": "1234",
     "DadosXadrez": {
@@ -205,28 +183,6 @@
       "Empates": 0,
       "Derrotas": 1,
       "Pontuacao": -1
-    },
-    "DadosVelha": {
-      "Vitorias": 0,
-      "Empates": 0,
-      "Derrotas": 0,
-      "Pontuacao": 0
-    },
-    "DadosNaval": {
-      "Vitorias": 0,
-      "Empates": 0,
-      "Derrotas": 0,
-      "Pontuacao": 0
-    }
-  },
-  {
-    "Usuario": "Mateus",
-    "Senha": "1234",
-    "DadosXadrez": {
-      "Vitorias": 0,
-      "Empates": 0,
-      "Derrotas": 0,
-      "Pontuacao": 0
     },
     "DadosVelha": {
       "Vitorias": 0,
@@ -263,5 +219,4 @@
       "Pontuacao": 0
     }
   }
-
 ]

@@ -6,9 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Hub.Utils;
 using Hub.Model;
+using Hub.Service;
 
-namespace Hub.Model.jogoDaVelha
+namespace Hub.Service
 {
     public class JogoDaVelha : GameHub
     {
@@ -16,22 +18,6 @@ namespace Hub.Model.jogoDaVelha
         public JogoDaVelha()
         {
 
-        }
-        public void ResetarPontuações(string fileName)
-        {
-            foreach (Jogador jogador in Jogadores)
-            {
-
-                jogador.DadosVelha.Vitorias = 0;
-                jogador.DadosVelha.Derrotas = 0;
-                jogador.DadosVelha.Empates = 0;
-                jogador.DadosVelha.ObterPontuacao(0, 0, 0);
-
-            }
-
-            string writeJsonString = JsonSerializer.Serialize(Jogadores);
-            File.WriteAllText(fileName, writeJsonString);
-            Console.WriteLine("Pontuações resetadas com sucesso!");
         }
 
         public void MostrarJogoDaVelha(string[,] jogo)
@@ -258,21 +244,20 @@ namespace Hub.Model.jogoDaVelha
             }
             return jogadaDeIminencia;
         }
-
         public void InicializarJogo(string fileName, Jogador[] jogadores, bool cpu)
         {
             string player1;
             string player2;
             if (cpu)
             {
-                player1 = jogadores[0].Usuario;
-                player2 = Jogadores[0].Usuario;
+                player1 = "Cpu";
+                player2 = Jogadores[1].Usuario;
 
             }
             else
             {
                 player1 = jogadores[0].Usuario;
-                player2 = jogadores[0].Usuario;
+                player2 = jogadores[1].Usuario;
             }
 
             string[,] jogo = new string[3, 3];
@@ -288,7 +273,10 @@ namespace Hub.Model.jogoDaVelha
                 }
 
                 int vencedor = JogarVelha(player1, player2, jogo, cpu);
-                AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName, "velha");
+                if (!cpu)
+                {
+                    AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName, "velha");
+                }
                 Console.WriteLine("Deseja jogar novamente? (1 - Sim | 2 - Não)");
 
             } while (int.Parse(Console.ReadLine()) != 2);
@@ -297,7 +285,6 @@ namespace Hub.Model.jogoDaVelha
             Console.Clear();
 
         }
-
         public int JogadaDoCPU(string[,] jogo, string primeiroJogagor)
         {
             int jogada = 0;
@@ -370,28 +357,37 @@ namespace Hub.Model.jogoDaVelha
                     jogada = int.Parse(Console.ReadLine());
                 }
 
-                int posição = 0;
 
-                if (jogada <= 9 && jogada >= 1)
+                bool validInput = false;
+                do
                 {
+                    int posição = 0;
+                    while (jogada > 9 || jogada < 1)
+                    {
+                        Console.WriteLine("Posição invalida, por favor digite uma posição valida");
+                        jogada = int.Parse(Console.ReadLine());
+                    }
 
                     for (int i = 0; i < 3; i++)
                     {
                         for (int j = 0; j < 3; j++)
                         {
 
+
                             if (posição == jogada - 1 && jogo[i, j] == " ")
                             {
                                 numeroDaJogada++;
                                 jogo[i, j] = vezDoJogador == 1 ? "X" : "O";
                                 vencedor = ChecarCondiçãoDeVitoria(player1, player2, jogo, numeroDaJogada);
-                                vezDoJogador = TrocarJogador(vezDoJogador);
+                                vezDoJogador = Helpers.TrocarJogador(vezDoJogador);
+                                validInput= true;
 
                             }
+
                             else if (posição == jogada - 1 && jogo[i, j] != " ")
                             {
-                                Console.WriteLine("Posição ja ocupada, por favor digite uma posição valida, Aperte qualquer tecla para continar");
-                                Console.ReadKey();
+                                Console.WriteLine("Posição invalida, por favor digite uma posição valida");
+                                jogada = int.Parse(Console.ReadLine());
 
                             }
                             posição++;
@@ -399,12 +395,9 @@ namespace Hub.Model.jogoDaVelha
                         }
 
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Posição invalida!, Aperte qualquer tecla para continar");
-                    Console.ReadKey();
-                }
+                } while (!validInput);
+
+
 
             } while (vencedor == 0);
 

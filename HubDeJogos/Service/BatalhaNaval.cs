@@ -1,7 +1,9 @@
 ﻿using System.Data.SqlTypes;
 using Hub.Model.batalhaNaval;
+using Hub.Utils;
+using Hub.Model;
 
-namespace Hub.Model.batalhaNaval
+namespace Hub.Service
 {
     public class BatalhaNaval : GameHub
     {
@@ -159,7 +161,7 @@ namespace Hub.Model.batalhaNaval
             string[,] tabuleiroDoOponente;
             int vezDoJogador = 1;
             int vencedor;
-            string casaAlvoStr;
+            string casaAlvoStr = "";
 
             do
             {
@@ -174,16 +176,22 @@ namespace Hub.Model.batalhaNaval
                 MostrarTabuleiro(tabuleiroDoOponente, naviosDoOponente, nomeDoOponente);
 
                 Console.WriteLine($"Vez do jogador {nomeDoJogadorDaVez}, Digite a casa que deseja atirar");
-                try
-                {
 
-                    casaAlvoStr = Console.ReadLine();
-                    casaAlvo = ValidarInputDeDados(casaAlvoStr, tabuleiroDoOponente);
-                }
-                catch (Exception ex)
+                do
                 {
+                    try
+                    {
 
-                }
+                        casaAlvoStr = Console.ReadLine();
+                        casaAlvo = ValidarInputDeDados(casaAlvoStr, tabuleiroDoOponente);
+                    }
+                    catch (IndexOutOfRangeException indexOut)
+                    {
+                        Console.WriteLine(indexOut.Message);
+                        Console.WriteLine("Casa nao valida, Digite novamente");
+                    }
+                } while (casaAlvoStr.Length < 2);
+
 
 
                 tabuleiroDoOponente = AtacarAlvo(tabuleiroDoOponente, naviosDoOponente, casaAlvo);
@@ -197,7 +205,7 @@ namespace Hub.Model.batalhaNaval
                 if (vencedor != 0) Console.WriteLine($"Fim de Jogo!,O jogador {nomeDoJogadorDaVez} é o vencedor");
 
 
-                vezDoJogador = TrocarJogador(vezDoJogador);
+                vezDoJogador = Helpers.TrocarJogador(vezDoJogador);
 
 
 
