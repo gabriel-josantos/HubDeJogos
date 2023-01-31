@@ -699,7 +699,7 @@ namespace Hub.Service
             int vencedor = JogarXadrez(jogadores[0].Usuario, jogadores[1].Usuario);
 
             GerarArquivoPGN(vencedor);
-            AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName, "xadrez");
+            AtribuirResultadoDeJogo(jogadores[0].DadosXadrez, jogadores[1].DadosXadrez, vencedor, fileName);
 
         }
 

@@ -144,7 +144,7 @@ namespace Hub.Service
 
             int vencedor = JogarBatalhaNaval(jogadores[0].Usuario, jogadores[1].Usuario);
 
-            AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName, "naval");
+            AtribuirResultadoDeJogo(jogadores[0].DadosNaval, jogadores[1].DadosNaval, vencedor, fileName);
 
 
         }

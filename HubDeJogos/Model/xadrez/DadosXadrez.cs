@@ -1,6 +1,6 @@
 ﻿namespace Hub.Model.xadrez
 {
-    public class DadosXadrez 
+    public class DadosXadrez : IDadosDeJogo 
     {
         public int Vitorias { get; set; }
         public int Empates { get; set; }

@@ -15,6 +15,7 @@ namespace Hub.Model
         public string Usuario { get; set; }
         public string Senha { get; set; }
 
+        public IDadosDeJogo DadosDeJogo { get; set; }
         public DadosXadrez DadosXadrez { get; set; }
 
         public DadosVelha DadosVelha { get; set; }

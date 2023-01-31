@@ -275,7 +275,7 @@ namespace Hub.Service
                 int vencedor = JogarVelha(player1, player2, jogo, cpu);
                 if (!cpu)
                 {
-                    AtribuirResultadoDeJogo(jogadores[0], jogadores[1], vencedor, fileName, "velha");
+                    AtribuirResultadoDeJogo(jogadores[0].DadosVelha, jogadores[1].DadosVelha, vencedor, fileName);
                 }
                 Console.WriteLine("Deseja jogar novamente? (1 - Sim | 2 - Não)");
 

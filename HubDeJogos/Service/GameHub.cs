@@ -25,7 +25,7 @@ namespace Hub.Service
             Console.WriteLine("Insira o nome de usuario");
             string usuario = Console.ReadLine();
 
-            while (ChecarExistenciaDeJogador(usuario))
+            while (!ChecarExistenciaDeJogador(usuario))
             {
                 Console.WriteLine("Este nome de usuario ja esta sendo utilizado, por favor escolha outro");
                 usuario = Console.ReadLine();
@@ -65,6 +65,7 @@ namespace Hub.Service
                 Console.WriteLine("Digite 1 para atualizar o usuario");
                 Console.WriteLine("Digite 2 para atualizar a senha");
                 int updateOpt = int.Parse(Console.ReadLine());
+
                 if (updateOpt == 1)
                 {
                     while (true)
@@ -132,72 +133,28 @@ namespace Hub.Service
             return Jogadores.Find(jogador => jogador.Usuario == usuario);
         }
 
-        public void AtribuirResultadoDeJogo(Jogador jogador1, Jogador jogador2, int vencedor, string filePath, string tipoDeJgo)
+        public void AtribuirResultadoDeJogo(IDadosDeJogo dadosDeJogoJogador1, IDadosDeJogo dadosDeJogoJogador2, int vencedor, string filePath)
         {
-            if (tipoDeJgo == "xadrez")
-            {
-                switch (vencedor)
-                {
-                    case 1:
-                        jogador1.DadosXadrez.Vitorias++;
-                        jogador2.DadosXadrez.Derrotas++;
-                        break;
-                    case 2:
-                        jogador2.DadosXadrez.Vitorias++;
-                        jogador1.DadosXadrez.Derrotas++;
-                        break;
-                    case 3:
-                        jogador2.DadosXadrez.Empates++;
-                        jogador1.DadosXadrez.Empates++;
-                        break;
-                }
 
-                Jogadores.ForEach(jogador => jogador.DadosXadrez.ObterPontuacao(jogador.DadosXadrez.Vitorias, jogador.DadosXadrez.Empates, jogador.DadosXadrez.Derrotas));
-                Helpers.SerializarJson(filePath);
-            }
-            if (tipoDeJgo == "velha")
+            switch (vencedor)
             {
-                switch (vencedor)
-                {
-                    case 1:
-                        jogador1.DadosVelha.Vitorias++;
-                        jogador2.DadosVelha.Derrotas++;
-                        break;
-                    case 2:
-                        jogador2.DadosVelha.Vitorias++;
-                        jogador1.DadosVelha.Derrotas++;
-                        break;
-                    case 3:
-                        jogador2.DadosVelha.Empates++;
-                        jogador1.DadosVelha.Empates++;
-                        break;
-                }
-
-                Jogadores.ForEach(jogador => jogador.DadosVelha.ObterPontuacao(jogador.DadosVelha.Vitorias, jogador.DadosVelha.Empates, jogador.DadosVelha.Derrotas));
-                Helpers.SerializarJson(filePath); ;
+                case 1:
+                    dadosDeJogoJogador1.Vitorias++;
+                    dadosDeJogoJogador2.Derrotas++;
+                    break;
+                case 2:
+                    dadosDeJogoJogador2.Vitorias++;
+                    dadosDeJogoJogador1.Derrotas++;
+                    break;
+                case 3:
+                    dadosDeJogoJogador1.Empates++;
+                    dadosDeJogoJogador2.Empates++;
+                    break;
             }
 
-            if (tipoDeJgo == "naval")
-            {
-                switch (vencedor)
-                {
-                    case 1:
-                        jogador1.DadosNaval.Vitorias++;
-                        jogador2.DadosNaval.Derrotas++;
-                        break;
-                    case 2:
-                        jogador2.DadosNaval.Vitorias++;
-                        jogador1.DadosNaval.Derrotas++;
-                        break;
-                    case 3:
-                        jogador2.DadosNaval.Empates++;
-                        jogador1.DadosNaval.Empates++;
-                        break;
-                }
-
-                Jogadores.ForEach(jogador => jogador.DadosNaval.ObterPontuacao(jogador.DadosNaval.Vitorias, jogador.DadosNaval.Empates, jogador.DadosNaval.Derrotas));
-                Helpers.SerializarJson(filePath);
-            }
+            dadosDeJogoJogador1.ObterPontuacao(dadosDeJogoJogador1.Vitorias, dadosDeJogoJogador1.Empates, dadosDeJogoJogador1.Derrotas);
+            dadosDeJogoJogador2.ObterPontuacao(dadosDeJogoJogador2.Vitorias, dadosDeJogoJogador2.Empates, dadosDeJogoJogador2.Derrotas);
+            Helpers.SerializarJson(filePath);
         }
 
         public void MostrarRankingDeJogo(string tipoDeJogo)
